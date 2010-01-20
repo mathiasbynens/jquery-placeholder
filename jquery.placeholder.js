@@ -16,6 +16,8 @@
   function setPlaceholder($elem) {
    if ($elem.val() === '' || $elem.val() === $elem.attr('placeholder')) {
     $elem.addClass('placeholder').val($elem.attr('placeholder'));
+   } else {
+    $elem.removeClass('placeholder');
    };
   };
   function preventSubmit($elem) {
