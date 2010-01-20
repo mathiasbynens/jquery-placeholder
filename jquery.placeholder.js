@@ -15,7 +15,7 @@
   // 2) Once every time the focusout() is triggered.
   function setPlaceholder($elem) {
    if ($elem.val() === '') {
-    $elem.val($elem.attr('placeholder'));
+    $elem.addClass('placeholder').val($elem.attr('placeholder'));
    };
   };
   function preventSubmit($elem) {
@@ -44,7 +44,7 @@
    });
    $input.focusin(function() {
     if ($input.val() === $input.attr('placeholder')) {
-     $input.val('');
+     $input.removeClass('placeholder').val('');
     };
    }).focusout(function() {
     setPlaceholder($input);
