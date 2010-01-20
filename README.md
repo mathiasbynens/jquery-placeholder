@@ -24,7 +24,7 @@ This plugin was based on a code snippet by [Paul Irish](http://paulirish.com/), 
 
 The plugin automatically adds class="placeholder" to the elements who are currently showing their placeholder text. You can use this to style placeholder text differently:
 
-     input { color: #000; }
+    input { color: #000; }
     .placeholder { color: #666; }
 
 ## Notes
