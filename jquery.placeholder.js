@@ -14,7 +14,7 @@
   // 1) Once when the DOM is loaded;
   // 2) Once every time the focusout() is triggered.
   function setPlaceholder($elem) {
-   if ($elem.val() === '') {
+   if ($elem.val() === '' || $elem.val() === $elem.attr('placeholder')) {
     $elem.addClass('placeholder').val($elem.attr('placeholder'));
    };
   };
