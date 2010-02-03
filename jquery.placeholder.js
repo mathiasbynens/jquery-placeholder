@@ -20,33 +20,25 @@
     $elem.removeClass('placeholder');
    };
   };
-  function preventSubmit($form) {
-   if ($form.has('.placeholder')) {
-    $form.find('.placeholder:first').val('').focus().removeClass('placeholder');
+  // Submit handler on all forms containing input[placeholder]
+  $('form:has([placeholder])').click(function() {
+  // if ($(this).has('.placeholder') never returns false here — WTF?
+   if ($(this).find('.placeholder').length) {
+    $(this).find('.placeholder:first').val('').focus().removeClass('placeholder');
     return false;
    };
-  };
+  });
   // Yes, .each() — in case .placeholder() is called on several elements, which is very likely, e.g. $('input').placeholder();
   return $(this).each(function() {
    var $input = $(this);
    // Quit if the current element is a password input, or not an input at all
    if ($input.is(':password') || !$input.is(':input')) {
     return;
-   }
+   };
    setPlaceholder($input);
-   // Cancel both the submit event of this form and the click event of the submit button of this form
-   // I found this to be necessary when using the jQuery Validation Plugin
-   // Even preventDefault() failed — AMIDOINITRITE?!
-   $(this.form).submit(function() {
-    // preventDefault(); doesn’t seem to work here
-    preventSubmit($(this));
-   }).find('input[type=submit]').click(function() {
-    // preventDefault(); doesn’t seem to work here
-    preventSubmit(this.form);
-   });
    $input.focusin(function() {
     if ($input.val() === $input.attr('placeholder')) {
-     $input.removeClass('placeholder').val('');
+     $input.val('').removeClass('placeholder');
     };
    }).focusout(function() {
     setPlaceholder($input);
