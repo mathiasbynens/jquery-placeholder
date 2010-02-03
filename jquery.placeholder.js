@@ -20,9 +20,9 @@
     $elem.removeClass('placeholder');
    };
   };
-  function preventSubmit($elem) {
-   if ($elem.val() === $elem.attr('placeholder')) {
-    $elem.val('').focus();
+  function preventSubmit($form) {
+   if ($form.has('.placeholder')) {
+    $form.find('.placeholder:first').val('').focus().removeClass('placeholder');
     return false;
    };
   };
@@ -39,10 +39,10 @@
    // Even preventDefault() failed — AMIDOINITRITE?!
    $(this.form).submit(function() {
     // preventDefault(); doesn’t seem to work here
-    preventSubmit($input);
+    preventSubmit($(this));
    }).find('input[type=submit]').click(function() {
     // preventDefault(); doesn’t seem to work here
-    preventSubmit($input);
+    preventSubmit(this.form);
    });
    $input.focusin(function() {
     if ($input.val() === $input.attr('placeholder')) {
