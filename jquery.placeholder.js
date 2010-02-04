@@ -21,10 +21,11 @@
    };
   };
   // Submit handler on all forms containing input[placeholder]
-  $('form:has([placeholder])').click(function() {
+  // Needs to be via .click()
+  $('form:has([placeholder]) input[type=submit]').click(function() {
   // if ($(this).has('.placeholder') never returns false here — WTF?
-   if ($(this).find('.placeholder').length) {
-    $(this).find('.placeholder:first').val('').focus().removeClass('placeholder');
+   if ($(this.form).find('.placeholder').length) {
+    $(this.form).find('.placeholder:first').val('').focus().removeClass('placeholder');
     return false;
    };
   });
