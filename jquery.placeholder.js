@@ -22,7 +22,7 @@
   };
   // Submit handler on all forms containing input[placeholder]
   // Needs to be via .click()
-  $('form:has([placeholder]) input[type=submit]').click(function() {
+  $('form:has([placeholder]) :submit').click(function() {
   // if ($(this).has('.placeholder') never returns false here — WTF?
    if ($(this.form).find('.placeholder').length) {
     $(this.form).find('.placeholder:first').val('').focus().removeClass('placeholder');
