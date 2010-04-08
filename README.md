@@ -4,7 +4,7 @@ This plugin was based on a code snippet by [Paul Irish](http://paulirish.com/), 
 
 ## Demo & Examples
 
-[http://mathiasbynens.be/examples/placeholder](http://mathiasbynens.be/examples/placeholder)
+[http://mathiasbynens.be/demo/placeholder](http://mathiasbynens.be/demo/placeholder)
 
 ## Example Usage
 
