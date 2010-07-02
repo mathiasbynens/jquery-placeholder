@@ -22,7 +22,7 @@ This plugin was based on a code snippet by [Paul Irish](http://paulirish.com/), 
 
 ### CSS
 
-The plugin automatically adds class="placeholder" to the elements who are currently showing their placeholder text. You can use this to style placeholder text differently:
+The plugin automatically adds `class="placeholder"` to the elements who are currently showing their placeholder text. You can use this to style placeholder text differently:
 
     input { color: #000; }
     .placeholder { color: #aaa; }
