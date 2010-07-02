@@ -1,5 +1,5 @@
 /*!
- * HTML5 Placeholder jQuery Plugin v1.0
+ * HTML5 Placeholder jQuery Plugin v1.1
  * @link http://github.com/mathiasbynens/Placeholder-jQuery-Plugin
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
@@ -37,11 +37,11 @@
     return;
    };
    setPlaceholder($input);
-   $input.focusin(function() {
+   $input.focus(function() {
     if ($input.val() === $input.attr('placeholder')) {
      $input.val('').removeClass('placeholder');
     };
-   }).focusout(function() {
+   }).blur(function() {
     setPlaceholder($input);
    });
   });

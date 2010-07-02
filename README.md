@@ -25,12 +25,12 @@ This plugin was based on a code snippet by [Paul Irish](http://paulirish.com/), 
 The plugin automatically adds class="placeholder" to the elements who are currently showing their placeholder text. You can use this to style placeholder text differently:
 
     input { color: #000; }
-    .placeholder { color: #666; }
+    .placeholder { color: #aaa; }
 
 ## Notes
 
-The plugin automatically checks if the browser supports the HTML5 placeholder attribute for inputs natively. If this is the case, the plugin won’t do anything.
-The plugin will ignore password inputs.
+* The plugin automatically checks if the browser supports the HTML5 placeholder attribute for inputs natively. If this is the case, the plugin won’t do anything.
+* The plugin will ignore password inputs.
 
 ## Credits
 
