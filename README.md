@@ -10,21 +10,22 @@ This plugin was based on a code snippet by [Paul Irish](http://paulirish.com/), 
 
 ### HTML
 
-    <input type="text" name="foo" placeholder="Enter some text here">
-    <input type="email" name="bar" placeholder="Enter your email address">
-    <input type="search" name="baz" placeholder="Search this site…">
-    <input type="url" name="wtf" placeholder="Enter your URL">
-    <input type="tel" name="omg" placeholder="Enter your phone number">
+    <input type="text" name="name" placeholder="e.g. John Doe">
+    <input type="email" name="email" placeholder="e.g. address@example.ext">
+    <input type="url" name="url" placeholder="e.g. http://mathiasbynens.be/">
+    <input type="tel" name="tel" placeholder="e.g. +32 472 77 69 88">
+    <input type="search" name="search" placeholder="Search this site…">
+    <textarea name="message" placeholder="Your message goes here"></textarea>
 
 ### jQuery
 
-    $('input').placeholder();
+    $('input, textarea').placeholder();
 
 ### CSS
 
 The plugin automatically adds `class="placeholder"` to the elements who are currently showing their placeholder text. You can use this to style placeholder text differently:
 
-    input { color: #000; }
+    input, textarea { color: #000; }
     .placeholder { color: #aaa; }
 
 ## Notes

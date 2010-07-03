@@ -1,5 +1,5 @@
 /*!
- * HTML5 Placeholder jQuery Plugin v1.1
+ * HTML5 Placeholder jQuery Plugin v1.2
  * @link http://github.com/mathiasbynens/Placeholder-jQuery-Plugin
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
@@ -20,8 +20,8 @@
     $elem.removeClass('placeholder');
    };
   };
-  // This selector could be shortened to form:has([placeholder]) but that would be less efficient
-  $('form:has(input[placeholder])').submit(function() {
+  // Look for forms with inputs and/or textareas with a placeholder attribute in them
+  $('form:has([placeholder])').submit(function() {
    // Clear the placeholder values so they don’t get submitted
    $('.placeholder', this).val('');
   });
@@ -32,7 +32,7 @@
   // Yes, .each() — in case .placeholder() is called on several elements, which is very likely, e.g. $('input').placeholder();
   return this.each(function() {
    var $input = $(this);
-   // Quit if the current element is a password input, or not an input at all
+   // Quit if the current element is a password input, or not an input/textarea at all
    if ($input.is(':password') || !$input.is(':input')) {
     return;
    };
