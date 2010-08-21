@@ -14,6 +14,7 @@ This plugin was based on a code snippet by [Paul Irish](http://paulirish.com/), 
     <input type="email" name="email" placeholder="e.g. address@example.ext">
     <input type="url" name="url" placeholder="e.g. http://mathiasbynens.be/">
     <input type="tel" name="tel" placeholder="e.g. +32 472 77 69 88">
+    <input type="password" name="password" placeholder="e.g. h4x0rpr00fz">
     <input type="search" name="search" placeholder="Search this site…">
     <textarea name="message" placeholder="Your message goes here"></textarea>
 
@@ -30,8 +31,8 @@ The plugin automatically adds `class="placeholder"` to the elements who are curr
 
 ## Notes
 
+* Works in all A-grade browsers, including IE6.
 * The plugin automatically checks if the browser supports the HTML5 placeholder attribute for inputs natively. If this is the case, the plugin won’t do anything.
-* The plugin will ignore password inputs.
 
 ## Credits
 
