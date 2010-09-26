@@ -43,4 +43,5 @@ The plugin automatically adds `class="placeholder"` to the elements who are curr
 Kudos to [Paul Irish](http://paulirish.com/) for his snippet and everyone from [#jquery](http://webchat.freenode.net/?channels=jquery) for the tips and ideas.
 
 _– [Mathias](http://mathiasbynens.be/)_
+
 _– [@gpupo](http://g1mr.com/)_

@@ -6,9 +6,10 @@
  * @gpupo set the autoload and undefined placeholder bug. Just include the script. 25/09/2010
  */
 ;(function($) {
+ var nativeSupportAvailable = 'placeholder' in document.createElement('input');
  $.fn.placeholder = function() {
   // Quit if there’s support for HTML5 placeholder
-  if (this[0] && 'placeholder' in document.createElement('input')) {
+  if (this[0] && nativeSupportAvailable) {
    // Allow chaining
    return this;
   }
