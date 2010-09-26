@@ -2,6 +2,7 @@
  * HTML5 Placeholder jQuery Plugin v1.3
  * @link http://github.com/mathiasbynens/Placeholder-jQuery-Plugin
  * @author Mathias Bynens <http://mathiasbynens.be/>
+ * 
  */
 ;(function($) {
  $.fn.placeholder = function() {
@@ -65,10 +66,11 @@
   // Yes, .each() — in case .placeholder() is called on several elements, which is very likely, e.g. $('input').placeholder();
   return this.each(function() {
    var $input = $(this);
-   // Quit if the current element is not an input/textarea at all
-   if (!$input.is(':input')) {
+   // Quit if the current element is not an input/textarea at all ** or not set a placeholder
+   if (!$input.is(':input') || !$input.attr('placeholder') ) {
     return;
    }
+
    setPlaceholder($input);
    $input.focus(onFocus).blur(function() {
     setPlaceholder($input);
