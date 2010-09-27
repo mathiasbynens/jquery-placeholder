@@ -1,5 +1,5 @@
 /*!
- * HTML5 Placeholder jQuery Plugin v1.3
+ * HTML5 Placeholder jQuery Plugin v1.4
  * @link http://github.com/mathiasbynens/Placeholder-jQuery-Plugin
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
@@ -65,8 +65,8 @@
   // Yes, .each() — in case .placeholder() is called on several elements, which is very likely, e.g. $('input').placeholder();
   return this.each(function() {
    var $input = $(this);
-   // Quit if the current element is not an input/textarea at all
-   if (!$input.is(':input')) {
+   // Quit if the current element doesn’t have a placeholder attribute, or is not an input/textarea at all
+   if (!$input.attr('placeholder') || !$input.is(':input')) {
     return;
    }
    setPlaceholder($input);
