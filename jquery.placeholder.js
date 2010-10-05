@@ -5,6 +5,13 @@
  */
 ;(function($) {
 
+	if ('placeholder' in document.createElement('input')) {
+		$.fn.placeholder = function() {
+			return this;
+		};
+		return;
+	}
+
 	function args($elem) {
 		// Get attributes string from outerHTML
 		var html = $('<div>').append($elem.clone()).html().replace(/<(\w+)\s+(.*)>/, '$2'),
@@ -29,9 +36,6 @@
 		}
 	}
 
-	// Made this a function, because we actually need it on two different occasions:
-	// 1) Once when the DOM is loaded;
-	// 2) Once every time the focusout() is triggered.
 	function setPlaceholder(elem) {
 		var $replacement,
 		    $elem = $(this);
@@ -52,10 +56,12 @@
 		}
 	}
 
-	// Look for forms
-	$('form').bind('submit.placeholder', function() {
-		// Clear the placeholder values so they don’t get submitted
-		$('.placeholder', this).val('');
+	$(function() {
+		// Look for forms
+		$('form').bind('submit.placeholder', function() {
+			// Clear the placeholder values so they don’t get submitted
+			$('.placeholder', this).val('');
+		});
 	});
 
 	// Clear placeholder values upon page reload
@@ -63,17 +69,11 @@
 		$('.placeholder').val('');
 	});
 
-	if ('placeholder' in document.createElement('input')) {
-		$.fn.placeholder = function() {
-			return this;
-		};
-	} else {
-		$.fn.placeholder = function() {
-			return this.filter(':input[placeholder]').bind({
-				'focus.placeholder': onFocus,
-				'blur.placeholder': setPlaceholder
-			}).trigger('blur.placeholder').end();
-		};
-	}
+	$.fn.placeholder = function() {
+		return this.filter(':input[placeholder]').bind({
+			'focus.placeholder': onFocus,
+			'blur.placeholder': setPlaceholder
+		}).trigger('blur.placeholder').end();
+	};
 
 })(jQuery);
