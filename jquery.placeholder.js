@@ -14,9 +14,10 @@
 
 	function args(elem) {
 		// Return an object of element attributes
-		var newAttrs = {}, rinlinejQuery = /^jQuery\d+$/;
-		$.each(elem.attributes, function(i, attr){
-			if( !rinlinejQuery.test(attr.name) ){
+		var newAttrs = {},
+		    rinlinejQuery = /^jQuery\d+$/;
+		$.each(elem.attributes, function(i, attr) {
+			if (!rinlinejQuery.test(attr.name)) {
 				newAttrs[attr.name] = attr.value;
 			}
 		});
@@ -39,11 +40,11 @@
 		    $input = $(this);
 		if ($input.val() === '' || $input.val() === $input.attr('placeholder')) {
 			if ($input.is(':password')) {
-				if(!$input.data('placeholder-textinput')){
+				if (!$input.data('placeholder-textinput')) {
 					try {
 						$replacement = $input.clone().attr({ type: 'text' });
 					} catch(e) {
-						$replacement = $('<input>').attr( $.extend(args($input[0]), {type: 'text'}) );
+						$replacement = $('<input>').attr($.extend(args($input[0]), { type: 'text' }));
 					}
 					$replacement
 						.removeAttr('name')
