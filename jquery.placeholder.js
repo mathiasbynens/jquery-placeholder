@@ -1,5 +1,5 @@
 /*!
- * HTML5 Placeholder jQuery Plugin v1.5
+ * HTML5 Placeholder jQuery Plugin v1.6
  * @link http://github.com/mathiasbynens/Placeholder-jQuery-Plugin
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
@@ -24,7 +24,7 @@
 		return newAttrs;
 	}
 
-	function onFocus() {
+	function clearPlaceholder() {
 		var $input = $(this);
 		if ($input.val() === $input.attr('placeholder') && $input.hasClass('placeholder')) {
 			if ($input.data('placeholder-password')) {
@@ -49,7 +49,7 @@
 					$replacement
 						.removeAttr('name')
 						.data('placeholder-password', true)
-						.bind('focus.placeholder', onFocus);
+						.bind('focus.placeholder', clearPlaceholder);
 					$input
 						.data('placeholder-textinput', $replacement)
 						.before($replacement);
@@ -66,7 +66,10 @@
 		// Look for forms
 		$('form').bind('submit.placeholder', function() {
 			// Clear the placeholder values so they don’t get submitted
-			$('.placeholder', this).val('');
+			var $inputs = $('.placeholder', this).each(clearPlaceholder);
+			setTimeout(function() {
+				$inputs.each(setPlaceholder);
+			}, 10);
 		});
 	});
 
@@ -77,7 +80,7 @@
 
 	$.fn.placeholder = function() {
 		return this.filter(':input[placeholder]')
-			.bind('focus.placeholder', onFocus)
+			.bind('focus.placeholder', clearPlaceholder)
 			.bind('blur.placeholder' , setPlaceholder)
 		.trigger('blur.placeholder').end();
 	};
