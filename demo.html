@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8">
+  <title>HTML5 placeholder jQuery Plugin</title>
+  <style>
+   body, input, textarea { font: 1em/1.4 Helvetica, Arial; }
+   label code { cursor: pointer; float: left; width: 150px; }
+   input { width: 14em; }
+   textarea { height: 5em; width: 20em; }
+   .placeholder { color: #aaa; }
+   .note { border: 1px solid orange; padding: 1em; background: #ffffe0; }
+  </style>
+ </head>
+ <body>
+  <h1>HTML5 Placeholder jQuery Plugin</h1>
+  <p>Check out <a href="http://github.com/mathiasbynens/Placeholder-jQuery-Plugin">the HTML5 Placeholder jQuery Plugin project page on GitHub</a>.</p>
+  <pre><code>$(function() {<br> $('input, textarea').placeholder();<br>});</code></pre>
+  <form action="placeholder" method="get">
+   <p><label><code>type=search</code> <input type="search" name="search" placeholder="Search this site…"></label></p>
+   <p><label><code>type=text</code> <input type="text" name="name" placeholder="e.g. John Doe"></label></p>
+   <p><label><code>type=email</code> <input type="email" name="email" placeholder="e.g. address@example.ext"></label></p>
+   <p><label><code>type=url</code> <input type="url" name="url" placeholder="e.g. http://mathiasbynens.be/"></label></p>
+   <p><label><code>type=tel</code> <input type="tel" name="tel" placeholder="e.g. +32 472 77 69 88"></label></p>
+   <p><label><code>type=password</code> <input type="password" name="password" placeholder="e.g. h4x0rpr00fz"></label></p>
+   <p><label><code>textarea</code> <textarea name="message" placeholder="Your message goes here"></textarea></label></p>
+   <p><input type="submit" value="type=submit"></p>
+  </form>
+  <p>— <a href="http://mathiasbynens.be/" title="Mathias Bynens, front-end developer">Mathias</a></p>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script src="jquery.placeholder.js"></script>
+  <script>
+   $(function() {
+    // Invoke the plugin
+    $('input, textarea').placeholder();
+    // That’s it, really.
+    // Now display a message if the browser supports placeholder natively
+    if ('placeholder' in document.createElement('input')) {
+     $('<p class="note"><strong>Your current browser supports <code>placeholder</code> natively.</strong> The plugin won’t run in this case, since it’s not needed. If you want to test the plugin, use an older browser ;)</p>').insertAfter('form');
+    };
+   });
+  </script>
+ </body>
+</html>
