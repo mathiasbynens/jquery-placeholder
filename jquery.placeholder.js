@@ -1,15 +1,23 @@
 /*!
- * HTML5 Placeholder jQuery Plugin v1.6
+ * HTML5 Placeholder jQuery Plugin v1.7
  * @link http://github.com/mathiasbynens/Placeholder-jQuery-Plugin
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
 ;(function($) {
 
-	if ('placeholder' in document.createElement('input')) {
+	var isInputSupported = 'placeholder' in document.createElement('input'),
+	    isTextareaSupported = 'placeholder' in document.createElement('textarea');
+	if (isInputSupported && isTextareaSupported) {
 		$.fn.placeholder = function() {
 			return this;
 		};
-		return;
+	} else {
+		$.fn.placeholder = function() {
+			return this.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
+				.bind('focus.placeholder', clearPlaceholder)
+				.bind('blur.placeholder', setPlaceholder)
+			.trigger('blur.placeholder').end();
+		};
 	}
 
 	function args(elem) {
@@ -77,12 +85,5 @@
 	$(window).bind('unload.placeholder', function() {
 		$('.placeholder').val('');
 	});
-
-	$.fn.placeholder = function() {
-		return this.filter(':input[placeholder]')
-			.bind('focus.placeholder', clearPlaceholder)
-			.bind('blur.placeholder' , setPlaceholder)
-		.trigger('blur.placeholder').end();
-	};
 
 })(jQuery);
