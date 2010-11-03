@@ -25,7 +25,7 @@
 		var newAttrs = {},
 		    rinlinejQuery = /^jQuery\d+$/;
 		$.each(elem.attributes, function(i, attr) {
-			if (!rinlinejQuery.test(attr.name)) {
+			if (attr.specified && !rinlinejQuery.test(attr.name)) {
 				newAttrs[attr.name] = attr.value;
 			}
 		});
