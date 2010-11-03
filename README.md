@@ -32,6 +32,10 @@ The plugin automatically adds `class="placeholder"` to the elements who are curr
 * Works in all A-grade browsers, including IE6.
 * The plugin automatically checks if the browser natively supports the HTML5 `placeholder` attribute for `input` and `textarea` elements. If this is the case, the plugin won’t do anything. If `@placeholder` is only supported for `input` elements, the plugin will only apply to `textarea`s. (This is the case for Safari 4.)
 
+## License
+
+This plugin is dual licensed under the MIT and GPL licenses, just like jQuery itself.
+
 ## Credits
 
 Kudos to [Paul Irish](http://paulirish.com/) for his inspiring snippet in [jQuery 1.4 Hawtness #1](http://jquery14.com/day-05/jquery-1-4-hawtness-1-with-paul-irish) and everyone from [#jquery](http://webchat.freenode.net/?channels=jquery) for the tips, ideas and patches.
