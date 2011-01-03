@@ -30,7 +30,7 @@ The plugin automatically adds `class="placeholder"` to the elements who are curr
 ## Notes
 
 * Works in all A-grade browsers, including IE6.
-* The plugin automatically checks if the browser natively supports the HTML5 `placeholder` attribute for `input` and `textarea` elements. If this is the case, the plugin won’t do anything. If `@placeholder` is only supported for `input` elements, the plugin will leave those alone and apply to `textarea`s exclusively. (This is the case for Safari 4.)
+* The plugin automatically checks if the browser natively supports the HTML5 `placeholder` attribute for `input` and `textarea` elements. If this is the case, the plugin won’t do anything. If `@placeholder` is only supported for `input` elements, the plugin will leave those alone and apply to `textarea`s exclusively. (This is the case for Safari 4, Opera 11.00, and possibly other browsers.)
 
 ## License
 
