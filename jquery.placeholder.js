@@ -1,5 +1,5 @@
 /*!
- * HTML5 Placeholder jQuery Plugin v1.7
+ * HTML5 Placeholder jQuery Plugin v1.8
  * @link http://github.com/mathiasbynens/Placeholder-jQuery-Plugin
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
@@ -45,8 +45,10 @@
 
 	function setPlaceholder(elem) {
 		var $replacement,
-		    $input = $(this);
-		if ($input.val() === '' || $input.val() === $input.attr('placeholder')) {
+		    $input = $(this),
+		    $origInput = $input,
+		    isInitialized = $input.data('placeholder-init');
+		if ($input.val() === '' || (!isInitialized && $input.val() === $input.attr('placeholder'))) {
 			if ($input.is(':password')) {
 				if (!$input.data('placeholder-textinput')) {
 					try {
@@ -68,6 +70,9 @@
 		} else {
 			$input.removeClass('placeholder');
 		}
+		if (!isInitialized) {
+ 		$origInput.data('placeholder-init', true);
+ 	}
 	}
 
 	$(function() {
@@ -86,4 +91,4 @@
 		$('.placeholder').val('');
 	});
 
-})(jQuery);
+}(jQuery));
