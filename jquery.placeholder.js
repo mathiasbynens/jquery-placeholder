@@ -7,7 +7,8 @@
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
 	    isTextareaSupported = 'placeholder' in document.createElement('textarea');
-	if (isInputSupported && isTextareaSupported) {
+  $.support.placeholder = isInputSupported && isTextareaSupported;
+	if ($.support.placeholder) {
 		$.fn.placeholder = function() {
 			return this;
 		};
