@@ -1,5 +1,5 @@
 /*!
- * HTML5 Placeholder jQuery Plugin v1.8.1
+ * HTML5 Placeholder jQuery Plugin v1.8.2
  * @link http://github.com/mathiasbynens/Placeholder-jQuery-Plugin
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
@@ -39,7 +39,7 @@
 		var $input = $(this);
 		if ($input.val() === $input.attr('placeholder') && $input.hasClass('placeholder')) {
 			if ($input.data('placeholder-password')) {
-				$input.hide().next().show().focus();
+				$input.hide().next().attr('id', $input.removeAttr('id').data('placeholder-id')).show().focus();
 			} else {
 				$input.val('').removeClass('placeholder');
 			}
@@ -50,32 +50,32 @@
 		var $replacement,
 		    $input = $(this),
 		    $origInput = $input,
-		    isInitialized = $input.data('placeholder-init');
-		if ($input.val() === '' || (!isInitialized && $input.val() === $input.attr('placeholder'))) {
+		    id = this.id;
+		if ($input.val() === '') {
 			if ($input.is(':password')) {
 				if (!$input.data('placeholder-textinput')) {
 					try {
 						$replacement = $input.clone().attr({ type: 'text' });
 					} catch(e) {
-						$replacement = $('<input>').attr($.extend(args($input[0]), { type: 'text' }));
+						$replacement = $('<input>').attr($.extend(args(this), { type: 'text' }));
 					}
 					$replacement
 						.removeAttr('name')
+						// We could just use the `.data(obj)` syntax here, but that wouldn’t work in pre-1.4.3 jQueries
 						.data('placeholder-password', true)
+						.data('placeholder-id', id)
 						.bind('focus.placeholder', clearPlaceholder);
 					$input
 						.data('placeholder-textinput', $replacement)
+						.data('placeholder-id', id)
 						.before($replacement);
 				}
-				$input = $input.hide().prev().show();
+				$input = $input.removeAttr('id').hide().prev().attr('id', id).show();
 			}
 			$input.addClass('placeholder').val($input.attr('placeholder'));
 		} else {
 			$input.removeClass('placeholder');
 		}
-		if (!isInitialized) {
- 		$origInput.data('placeholder-init', true);
- 	}
 	}
 
 	$(function() {

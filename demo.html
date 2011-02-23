@@ -17,13 +17,13 @@
   <h1>HTML5 Placeholder jQuery Plugin</h1>
   <p>Check out <a href="http://github.com/mathiasbynens/Placeholder-jQuery-Plugin">the HTML5 Placeholder jQuery Plugin project page on GitHub</a>.</p>
   <pre><code>$(function() {<br> $('input, textarea').placeholder();<br>});</code></pre>
-  <form action="placeholder" method="get">
+  <form>
    <p><label><code>type=search</code> <input type="search" name="search" placeholder="Search this site…"></label></p>
    <p><label><code>type=text</code> <input type="text" name="name" placeholder="e.g. John Doe"></label></p>
    <p><label><code>type=email</code> <input type="email" name="email" placeholder="e.g. address@example.ext"></label></p>
    <p><label><code>type=url</code> <input type="url" name="url" placeholder="e.g. http://mathiasbynens.be/"></label></p>
    <p><label><code>type=tel</code> <input type="tel" name="tel" placeholder="e.g. +32 472 77 69 88"></label></p>
-   <p><label><code>type=password</code> <input type="password" name="password" placeholder="e.g. h4x0rpr00fz"></label></p>
+   <p><label><code>type=password</code> <input type="password" name="password" placeholder="e.g. hunter2" id="p" class="x"></label></p>
    <p><label><code>textarea</code> <textarea name="message" placeholder="Your message goes here"></textarea></label></p>
    <p><input type="submit" value="type=submit"></p>
   </form>
@@ -31,6 +31,9 @@
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <script src="jquery.placeholder.js"></script>
   <script>
+   // To test the @id toggling on password inputs in browsers that don’t support changing an input’s @type dynamically (e.g. Firefox 3.6 or IE), uncomment this:
+   // jQuery.fn.hide = function() { return this; }
+   // Then add an @id to the password input and apply some styles to it.
    $(function() {
     // Invoke the plugin
     $('input, textarea').placeholder();
