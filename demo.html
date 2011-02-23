@@ -11,6 +11,7 @@
    textarea { height: 5em; width: 20em; }
    .placeholder { color: #aaa; }
    .note { border: 1px solid orange; padding: 1em; background: #ffffe0; }
+    /* #p { background: lime; } */
   </style>
  </head>
  <body>
@@ -23,7 +24,7 @@
    <p><label><code>type=email</code> <input type="email" name="email" placeholder="e.g. address@example.ext"></label></p>
    <p><label><code>type=url</code> <input type="url" name="url" placeholder="e.g. http://mathiasbynens.be/"></label></p>
    <p><label><code>type=tel</code> <input type="tel" name="tel" placeholder="e.g. +32 472 77 69 88"></label></p>
-   <p><label><code>type=password</code> <input type="password" name="password" placeholder="e.g. hunter2" id="p" class="x"></label></p>
+   <p><label for="p"><code>type=password</code> </label><input type="password" name="password" placeholder="e.g. hunter2" id="p"></p>
    <p><label><code>textarea</code> <textarea name="message" placeholder="Your message goes here"></textarea></label></p>
    <p><input type="submit" value="type=submit"></p>
   </form>
@@ -33,7 +34,7 @@
   <script>
    // To test the @id toggling on password inputs in browsers that don’t support changing an input’s @type dynamically (e.g. Firefox 3.6 or IE), uncomment this:
    // jQuery.fn.hide = function() { return this; }
-   // Then add an @id to the password input and apply some styles to it.
+   // Then uncomment the last rule in the <style> element (in the <head>).
    $(function() {
     // Invoke the plugin
     $('input, textarea').placeholder();
