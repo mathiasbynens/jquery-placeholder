@@ -34,8 +34,8 @@ The plugin automatically adds `class="placeholder"` to the elements who are curr
 * Caches the results of its two feature tests in `jQuery.fn.placeholder.input` and `jQuery.fn.placeholder.placeholder`. For example, if `@placeholder` is natively supported for `input` elements, `jQuery.fn.placeholder.input` will be `true`. After loading the plugin, you can re-use these properties in your own code.
 * Makes sure it never causes duplicate IDs in your DOM, even in browsers that need an extra `input` element to fake `@placeholder` for password inputs. This means you can safely do stuff like:
 
-        <label for="bar">Example label</label>
-        <input type="password" placeholder="foo" id="bar">
+      <label for="bar">Example label</label>
+      <input type="password" placeholder="foo" id="bar">
 
     And the `<label>` will always point to the `<input>` element you’d expect. Also, all CSS styles based on the ID will just work™.
 
