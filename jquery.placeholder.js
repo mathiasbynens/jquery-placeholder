@@ -6,7 +6,7 @@
 ;(function($) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
-	    isTextareaSupported = 'placeholder' in document.createElement('textarea');
+	    isTextareaSupported = 'placeholder' in document.createElement('textarea') && !/chrome/.test( navigator.userAgent.toLowerCase() );
 	if (isInputSupported && isTextareaSupported) {
 		$.fn.placeholder = function() {
 			return this;
