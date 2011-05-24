@@ -7,6 +7,7 @@
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
 	    isTextareaSupported = 'placeholder' in document.createElement('textarea');
+	var val = $.fn.val;
 	if (isInputSupported && isTextareaSupported) {
 		$.fn.placeholder = function() {
 			return this;
@@ -37,7 +38,7 @@
 
 	function clearPlaceholder() {
 		var $input = $(this);
-		if ($input.val() === $input.attr('placeholder') && $input.hasClass('placeholder')) {
+		if (val.apply($input) === $input.attr('placeholder') && $input.hasClass('placeholder')) {
 			if ($input.data('placeholder-password')) {
 				$input.hide().next().attr('id', $input.removeAttr('id').data('placeholder-id')).show().focus();
 			} else {
@@ -51,7 +52,7 @@
 		    $input = $(this),
 		    $origInput = $input,
 		    id = this.id;
-		if ($input.val() === '') {
+		if (val.apply($input) === '') {
 			if ($input.is(':password')) {
 				if (!$input.data('placeholder-textinput')) {
 					try {
@@ -94,4 +95,16 @@
 		$('.placeholder').val('');
 	});
 
+	// Override jQuery.val() so it does not return placeholder texts
+	if (!$.fn.placeholder.input || !$.fn.placeholder.textarea) {
+		$.fn.val = function() {
+			var ret = val.apply(this, arguments);
+			var elem = $(this[0]);
+			if (!arguments.length && elem.is('[placeholder]')) {
+				return (ret == elem.attr('placeholder')) ? '' : ret;
+			} else {
+				return ret;
+			}
+		};
+	}
 }(jQuery));
