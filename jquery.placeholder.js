@@ -1,26 +1,49 @@
 /*!
- * HTML5 Placeholder jQuery Plugin v1.8.2
- * @link http://github.com/mathiasbynens/Placeholder-jQuery-Plugin
+ * HTML5 Placeholder jQuery Plugin v1.8.3
+ * @link http://mths.be/placeholder
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
 ;(function($) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
 	    isTextareaSupported = 'placeholder' in document.createElement('textarea');
+
 	if (isInputSupported && isTextareaSupported) {
+
 		$.fn.placeholder = function() {
 			return this;
 		};
+
 		$.fn.placeholder.input = $.fn.placeholder.textarea = true;
+
 	} else {
+
 		$.fn.placeholder = function() {
 			return this.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
 				.bind('focus.placeholder', clearPlaceholder)
 				.bind('blur.placeholder', setPlaceholder)
-			.trigger('blur.placeholder').end();
+				.trigger('blur.placeholder').end();
 		};
+
 		$.fn.placeholder.input = isInputSupported;
 		$.fn.placeholder.textarea = isTextareaSupported;
+
+		$(function() {
+			// Look for forms
+			$('form').bind('submit.placeholder', function() {
+				// Clear the placeholder values so they don’t get submitted
+				var $inputs = $('.placeholder', this).each(clearPlaceholder);
+				setTimeout(function() {
+					$inputs.each(setPlaceholder);
+				}, 10);
+			});
+		});
+
+		// Clear placeholder values upon page reload
+		$(window).bind('unload.placeholder', function() {
+			$('.placeholder').val('');
+		});
+
 	}
 
 	function args(elem) {
@@ -77,21 +100,5 @@
 			$input.removeClass('placeholder');
 		}
 	}
-
-	$(function() {
-		// Look for forms
-		$('form').bind('submit.placeholder', function() {
-			// Clear the placeholder values so they don’t get submitted
-			var $inputs = $('.placeholder', this).each(clearPlaceholder);
-			setTimeout(function() {
-				$inputs.each(setPlaceholder);
-			}, 10);
-		});
-	});
-
-	// Clear placeholder values upon page reload
-	$(window).bind('unload.placeholder', function() {
-		$('.placeholder').val('');
-	});
 
 }(jQuery));
