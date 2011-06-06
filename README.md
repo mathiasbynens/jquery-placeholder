@@ -8,24 +8,30 @@
 
 ### HTML
 
-    <input type="text" name="name" placeholder="e.g. John Doe">
-    <input type="email" name="email" placeholder="e.g. address@example.ext">
-    <input type="url" name="url" placeholder="e.g. http://mathiasbynens.be/">
-    <input type="tel" name="tel" placeholder="e.g. +32 472 77 69 88">
-    <input type="password" name="password" placeholder="e.g. h4x0rpr00fz">
-    <input type="search" name="search" placeholder="Search this site…">
-    <textarea name="message" placeholder="Your message goes here"></textarea>
+``` html
+<input type="text" name="name" placeholder="e.g. John Doe">
+<input type="email" name="email" placeholder="e.g. address@example.ext">
+<input type="url" name="url" placeholder="e.g. http://mathiasbynens.be/">
+<input type="tel" name="tel" placeholder="e.g. +32 472 77 69 88">
+<input type="password" name="password" placeholder="e.g. h4x0rpr00fz">
+<input type="search" name="search" placeholder="Search this site…">
+<textarea name="message" placeholder="Your message goes here"></textarea>
+```
 
 ### jQuery
 
-    $('input, textarea').placeholder();
+``` js
+$('input, textarea').placeholder();
+```
 
 ### CSS
 
 The plugin automatically adds `class="placeholder"` to the elements who are currently showing their placeholder text. You can use this to style placeholder text differently:
 
-    input, textarea { color: #000; }
-    .placeholder { color: #aaa; }
+``` css
+input, textarea { color: #000; }
+.placeholder { color: #aaa; }
+```
 
 ## Notes
 
@@ -34,8 +40,10 @@ The plugin automatically adds `class="placeholder"` to the elements who are curr
 * Caches the results of its two feature tests in `jQuery.fn.placeholder.input` and `jQuery.fn.placeholder.textarea`. For example, if `@placeholder` is natively supported for `input` elements, `jQuery.fn.placeholder.input` will be `true`. After loading the plugin, you can re-use these properties in your own code.
 * Makes sure it never causes duplicate IDs in your DOM, even in browsers that need an extra `input` element to fake `@placeholder` for password inputs. This means you can safely do stuff like:
 
-        <label for="bar">Example label</label>
-        <input type="password" placeholder="foo" id="bar">
+    ``` html
+    <label for="bar">Example label</label>
+    <input type="password" placeholder="foo" id="bar">
+    ```
 
     And the `<label>` will always point to the `<input>` element you’d expect. Also, all CSS styles based on the ID will just work™.
 
