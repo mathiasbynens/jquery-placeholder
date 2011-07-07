@@ -60,7 +60,7 @@
 
 	function clearPlaceholder() {
 		var $input = $(this);
-		if ($input.val() === $input.attr('placeholder') && $input.hasClass('placeholder')) {
+		if ($.trim($input.val()) === $.trim($input.attr('placeholder')) && $input.hasClass('placeholder')) {
 			if ($input.data('placeholder-password')) {
 				$input.hide().next().attr('id', $input.removeAttr('id').data('placeholder-id')).show().focus();
 			} else {
@@ -95,7 +95,7 @@
 				}
 				$input = $input.removeAttr('id').hide().prev().attr('id', id).show();
 			}
-			$input.addClass('placeholder').val($input.attr('placeholder'));
+			$input.addClass('placeholder').val($.trim($input.attr('placeholder')));
 		} else {
 			$input.removeClass('placeholder');
 		}
