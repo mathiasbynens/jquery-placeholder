@@ -2,7 +2,8 @@
 ;(function(window, document, $) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
-	    isTextareaSupported = 'placeholder' in document.createElement('textarea');
+	    isTextareaSupported = 'placeholder' in document.createElement('textarea'),
+	    placeholderClassName = 'placeholder';
 
 	if (isInputSupported && isTextareaSupported) {
 
@@ -14,10 +15,8 @@
 
 	} else {
 
-		var placeholderClassName = 'placeholder';
-
-		$.fn.placeholder = function(className) {
-			placeholderClassName = className || placeholderClassName;
+		$.fn.placeholder = function() {
+			placeholderClassName = $.fn.placeholder.className || placeholderClassName;
 			return this.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
 				.bind('focus.placeholder', clearPlaceholder)
 				.bind('blur.placeholder', setPlaceholder)
