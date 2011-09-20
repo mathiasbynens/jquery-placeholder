@@ -14,7 +14,10 @@
 
 	} else {
 
-		$.fn.placeholder = function() {
+		var placeholderClassName = 'placeholder';
+
+		$.fn.placeholder = function(className) {
+			placeholderClassName = className || placeholderClassName;
 			return this.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
 				.bind('focus.placeholder', clearPlaceholder)
 				.bind('blur.placeholder', setPlaceholder)
@@ -28,7 +31,7 @@
 			// Look for forms
 			$('form').bind('submit.placeholder', function() {
 				// Clear the placeholder values so they don’t get submitted
-				var $inputs = $('.placeholder', this).each(clearPlaceholder);
+				var $inputs = $('.' + placeholderClassName, this).each(clearPlaceholder);
 				setTimeout(function() {
 					$inputs.each(setPlaceholder);
 				}, 10);
@@ -37,7 +40,7 @@
 
 		// Clear placeholder values upon page reload
 		$(window).bind('unload.placeholder', function() {
-			$('.placeholder').val('');
+			$('.' + placeholderClassName).val('');
 		});
 
 	}
@@ -56,11 +59,11 @@
 
 	function clearPlaceholder() {
 		var $input = $(this);
-		if ($input.val() === $input.attr('placeholder') && $input.hasClass('placeholder')) {
+		if ($input.val() === $input.attr('placeholder') && $input.hasClass(placeholderClassName)) {
 			if ($input.data('placeholder-password')) {
 				$input.hide().next().show().focus().attr('id', $input.removeAttr('id').data('placeholder-id'));
 			} else {
-				$input.val('').removeClass('placeholder');
+				$input.val('').removeClass(placeholderClassName);
 			}
 		}
 	}
@@ -91,9 +94,9 @@
 				}
 				$input = $input.removeAttr('id').hide().prev().attr('id', id).show();
 			}
-			$input.addClass('placeholder').val($input.attr('placeholder'));
+			$input.addClass(placeholderClassName).val($input.attr('placeholder'));
 		} else {
-			$input.removeClass('placeholder');
+			$input.removeClass(placeholderClassName);
 		}
 	}
 
