@@ -14,9 +14,10 @@
 
 	} else {
 
+		var initialized = false;
 		$.fn.placeholder = function() {
 
-			$().one('ready', function() {
+			if (!initialized){
 				// Look for forms
 				$('form').bind('submit.placeholder', function() {
 					// Clear the placeholder values so they don’t get submitted
@@ -25,12 +26,14 @@
 						$inputs.each(setPlaceholder);
 					}, 10);
 				});
-			});
 
-			// Clear placeholder values upon page reload
-			$(window).one('unload.placeholder', function() {
-				$('.' + $.fn.placeholder.className).val('');
-			});
+				// Clear placeholder values upon page reload
+				$(window).bind('unload.placeholder', function() {
+					$('.' + $.fn.placeholder.className).val('');
+				});
+				
+				initialized = true;
+			}
 
 			return this.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
 				.bind('focus.placeholder', clearPlaceholder)
