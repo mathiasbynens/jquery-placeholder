@@ -2,8 +2,7 @@
 ;(function(window, document, $) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
-	    isTextareaSupported = 'placeholder' in document.createElement('textarea'),
-	    placeholderClassName = 'placeholder';
+	    isTextareaSupported = 'placeholder' in document.createElement('textarea');
 
 	if (isInputSupported && isTextareaSupported) {
 
@@ -16,13 +15,13 @@
 	} else {
 
 		$.fn.placeholder = function() {
-			placeholderClassName = $.fn.placeholder.className || placeholderClassName;
 			return this.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
 				.bind('focus.placeholder', clearPlaceholder)
 				.bind('blur.placeholder', setPlaceholder)
 				.trigger('blur.placeholder').end();
 		};
 
+		$.fn.placeholder.className = 'placeholder';
 		$.fn.placeholder.input = isInputSupported;
 		$.fn.placeholder.textarea = isTextareaSupported;
 
@@ -30,7 +29,7 @@
 			// Look for forms
 			$('form').bind('submit.placeholder', function() {
 				// Clear the placeholder values so they don’t get submitted
-				var $inputs = $('.' + placeholderClassName, this).each(clearPlaceholder);
+				var $inputs = $('.' + $.fn.placeholder.className, this).each(clearPlaceholder);
 				setTimeout(function() {
 					$inputs.each(setPlaceholder);
 				}, 10);
@@ -39,7 +38,7 @@
 
 		// Clear placeholder values upon page reload
 		$(window).bind('unload.placeholder', function() {
-			$('.' + placeholderClassName).val('');
+			$('.' + $.fn.placeholder.className).val('');
 		});
 
 	}
@@ -57,7 +56,8 @@
 	}
 
 	function clearPlaceholder() {
-		var $input = $(this);
+		var $input = $(this),
+			placeholderClassName = $.fn.placeholder.className;
 		if ($input.val() === $input.attr('placeholder') && $input.hasClass(placeholderClassName)) {
 			if ($input.data('placeholder-password')) {
 				$input.hide().next().show().focus().attr('id', $input.removeAttr('id').data('placeholder-id'));
@@ -71,7 +71,8 @@
 		var $replacement,
 		    $input = $(this),
 		    $origInput = $input,
-		    id = this.id;
+		    id = this.id,
+		    placeholderClassName = $.fn.placeholder.className;
 		if ($input.val() === '') {
 			if ($input.is(':password')) {
 				if (!$input.data('placeholder-textinput')) {
