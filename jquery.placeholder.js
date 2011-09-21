@@ -15,6 +15,23 @@
 	} else {
 
 		$.fn.placeholder = function() {
+
+			$().one('ready', function() {
+				// Look for forms
+				$('form').bind('submit.placeholder', function() {
+					// Clear the placeholder values so they don’t get submitted
+					var $inputs = $('.' + $.fn.placeholder.className, this).each(clearPlaceholder);
+					setTimeout(function() {
+						$inputs.each(setPlaceholder);
+					}, 10);
+				});
+			});
+
+			// Clear placeholder values upon page reload
+			$(window).one('unload.placeholder', function() {
+				$('.' + $.fn.placeholder.className).val('');
+			});
+
 			return this.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
 				.bind('focus.placeholder', clearPlaceholder)
 				.bind('blur.placeholder', setPlaceholder)
@@ -24,22 +41,6 @@
 		$.fn.placeholder.className = 'placeholder';
 		$.fn.placeholder.input = isInputSupported;
 		$.fn.placeholder.textarea = isTextareaSupported;
-
-		$(function() {
-			// Look for forms
-			$('form').bind('submit.placeholder', function() {
-				// Clear the placeholder values so they don’t get submitted
-				var $inputs = $('.' + $.fn.placeholder.className, this).each(clearPlaceholder);
-				setTimeout(function() {
-					$inputs.each(setPlaceholder);
-				}, 10);
-			});
-		});
-
-		// Clear placeholder values upon page reload
-		$(window).bind('unload.placeholder', function() {
-			$('.' + $.fn.placeholder.className).val('');
-		});
 
 	}
 
