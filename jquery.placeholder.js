@@ -2,7 +2,8 @@
 ;(function(window, document, $) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
-	    isTextareaSupported = 'placeholder' in document.createElement('textarea');
+	    isTextareaSupported = 'placeholder' in document.createElement('textarea'),
+	    initialized = false;
 
 	if (isInputSupported && isTextareaSupported) {
 
@@ -14,14 +15,14 @@
 
 	} else {
 
-		var initialized = false;
 		$.fn.placeholder = function() {
+			var className = $.fn.placeholder.className;
 
 			if (!initialized){
 				// Look for forms
 				$('form').bind('submit.placeholder', function() {
 					// Clear the placeholder values so they don’t get submitted
-					var $inputs = $('.' + $.fn.placeholder.className, this).each(clearPlaceholder);
+					var $inputs = $('.' + className, this).each(clearPlaceholder);
 					setTimeout(function() {
 						$inputs.each(setPlaceholder);
 					}, 10);
@@ -29,9 +30,9 @@
 
 				// Clear placeholder values upon page reload
 				$(window).bind('unload.placeholder', function() {
-					$('.' + $.fn.placeholder.className).val('');
+					$('.' + className).val('');
 				});
-				
+
 				initialized = true;
 			}
 
