@@ -2,7 +2,8 @@
 ;(function(window, document, $) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
-	    isTextareaSupported = 'placeholder' in document.createElement('textarea');
+	    isTextareaSupported = 'placeholder' in document.createElement('textarea'),
+	    initialized = false;
 
 	if (isInputSupported && isTextareaSupported) {
 
@@ -15,30 +16,35 @@
 	} else {
 
 		$.fn.placeholder = function() {
+			var className = $.fn.placeholder.className;
+
+			if (!initialized){
+				// Look for forms
+				$('form').bind('submit.placeholder', function() {
+					// Clear the placeholder values so they don’t get submitted
+					var $inputs = $('.' + className, this).each(clearPlaceholder);
+					setTimeout(function() {
+						$inputs.each(setPlaceholder);
+					}, 10);
+				});
+
+				// Clear placeholder values upon page reload
+				$(window).bind('unload.placeholder', function() {
+					$('.' + className).val('');
+				});
+
+				initialized = true;
+			}
+
 			return this.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
 				.bind('focus.placeholder', clearPlaceholder)
 				.bind('blur.placeholder', setPlaceholder)
 				.trigger('blur.placeholder').end();
 		};
 
+		$.fn.placeholder.className = 'placeholder';
 		$.fn.placeholder.input = isInputSupported;
 		$.fn.placeholder.textarea = isTextareaSupported;
-
-		$(function() {
-			// Look for forms
-			$('form').bind('submit.placeholder', function() {
-				// Clear the placeholder values so they don’t get submitted
-				var $inputs = $('.placeholder', this).each(clearPlaceholder);
-				setTimeout(function() {
-					$inputs.each(setPlaceholder);
-				}, 10);
-			});
-		});
-
-		// Clear placeholder values upon page reload
-		$(window).bind('unload.placeholder', function() {
-			$('.placeholder').val('');
-		});
 
 	}
 
@@ -55,12 +61,13 @@
 	}
 
 	function clearPlaceholder() {
-		var $input = $(this);
-		if ($input.val() === $input.attr('placeholder') && $input.hasClass('placeholder')) {
+		var $input = $(this),
+			placeholderClassName = $.fn.placeholder.className;
+		if ($input.val() === $input.attr('placeholder') && $input.hasClass(placeholderClassName)) {
 			if ($input.data('placeholder-password')) {
 				$input.hide().next().show().focus().attr('id', $input.removeAttr('id').data('placeholder-id'));
 			} else {
-				$input.val('').removeClass('placeholder');
+				$input.val('').removeClass(placeholderClassName);
 			}
 		}
 	}
@@ -69,7 +76,8 @@
 		var $replacement,
 		    $input = $(this),
 		    $origInput = $input,
-		    id = this.id;
+		    id = this.id,
+		    placeholderClassName = $.fn.placeholder.className;
 		if ($input.val() === '') {
 			if ($input.is(':password')) {
 				if (!$input.data('placeholder-textinput')) {
@@ -91,9 +99,9 @@
 				}
 				$input = $input.removeAttr('id').hide().prev().attr('id', id).show();
 			}
-			$input.addClass('placeholder').val($input.attr('placeholder'));
+			$input.addClass(placeholderClassName).val($input.attr('placeholder'));
 		} else {
-			$input.removeClass('placeholder');
+			$input.removeClass(placeholderClassName);
 		}
 	}
 
