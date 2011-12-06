@@ -2,19 +2,21 @@
 ;(function(window, document, $) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
-	    isTextareaSupported = 'placeholder' in document.createElement('textarea');
+	    isTextareaSupported = 'placeholder' in document.createElement('textarea'),
+	    prototype = $.fn,
+	    placeholder;
 
 	if (isInputSupported && isTextareaSupported) {
 
-		$.fn.placeholder = function() {
+		placeholder = prototype.placeholder = function() {
 			return this;
 		};
 
-		$.fn.placeholder.input = $.fn.placeholder.textarea = true;
+		placeholder.input = placeholder.textarea = true;
 
 	} else {
 
-		$.fn.placeholder = function() {
+		placeholder = prototype.placeholder = function() {
 			return this
 				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
 				.not('.placeholder')
@@ -23,8 +25,8 @@
 				.trigger('blur.placeholder').end();
 		};
 
-		$.fn.placeholder.input = isInputSupported;
-		$.fn.placeholder.textarea = isTextareaSupported;
+		placeholder.input = isInputSupported;
+		placeholder.textarea = isTextareaSupported;
 
 		$(function() {
 			// Look for forms
