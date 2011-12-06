@@ -1,4 +1,4 @@
-/*! http://mths.be/placeholder v1.8.5 by @mathias */
+/*! http://mths.be/placeholder v1.8.6 by @mathias */
 ;(function(window, document, $) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
@@ -15,7 +15,9 @@
 	} else {
 
 		$.fn.placeholder = function() {
-			return this.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
+			return this
+				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
+				.not('.placeholder')
 				.bind('focus.placeholder', clearPlaceholder)
 				.bind('blur.placeholder', setPlaceholder)
 				.trigger('blur.placeholder').end();
