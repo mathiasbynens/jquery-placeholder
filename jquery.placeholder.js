@@ -1,4 +1,4 @@
-/*! http://mths.be/placeholder v1.8.6 by @mathias */
+/*! http://mths.be/placeholder v1.8.7 by @mathias */
 ;(function(window, document, $) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
@@ -30,7 +30,7 @@
 
 		$(function() {
 			// Look for forms
-			$('form').bind('submit.placeholder', function() {
+			$(document).delegate('form', 'submit.placeholder', function() {
 				// Clear the placeholder values so they don’t get submitted
 				var $inputs = $('.placeholder', this).each(clearPlaceholder);
 				setTimeout(function() {
