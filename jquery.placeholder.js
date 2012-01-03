@@ -24,6 +24,17 @@
 				.bind('blur.placeholder', setPlaceholder)
 				.trigger('blur.placeholder').end();
 		};
+		
+		prototype.actualVal = function(arg){
+      			var ret = arg ? this.val(arg) : this.val();
+      			if(this.hasClass("placeholder")){
+				return "";
+			} else {
+			      	return ret;
+			}
+		};
+
+
 
 		placeholder.input = isInputSupported;
 		placeholder.textarea = isTextareaSupported;
