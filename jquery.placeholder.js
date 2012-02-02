@@ -16,6 +16,20 @@
 
 	} else {
 
+		$.fn.valReal = $.fn.val;
+
+		$.fn.val = function (value) {
+			var $input = $(this);
+
+			if(value != undefined)
+				return $input.valReal(value); // set
+
+			if ($input.valReal() === $input.attr('placeholder') && $input.hasClass('placeholder'))
+				return ''; // skip placeholder value
+			else
+				return $input.valReal();
+		};
+
 		placeholder = prototype.placeholder = function() {
 			return this
 				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
@@ -60,7 +74,7 @@
 
 	function clearPlaceholder() {
 		var $input = $(this);
-		if ($input.val() === $input.attr('placeholder') && $input.hasClass('placeholder')) {
+		if ($input.valReal() === $input.attr('placeholder') && $input.hasClass('placeholder')) {
 			if ($input.data('placeholder-password')) {
 				$input.hide().next().show().focus().attr('id', $input.removeAttr('id').data('placeholder-id'));
 			} else {
@@ -74,7 +88,7 @@
 		    $input = $(this),
 		    $origInput = $input,
 		    id = this.id;
-		if ($input.val() === '') {
+		if ($input.valReal() === '') {
 			if ($input.is(':password')) {
 				if (!$input.data('placeholder-textinput')) {
 					try {
