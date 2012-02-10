@@ -1,4 +1,4 @@
-/*! http://mths.be/placeholder v2.0.0 by @mathias */
+/*! http://mths.be/placeholder v2.0.1 by @mathias */
 ;(function(window, document, $) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
@@ -68,7 +68,7 @@
 		});
 
 		// Clear placeholder values upon page reload
-		$(window).bind('unload.placeholder', function() {
+		$(window).bind('beforeunload.placeholder', function() {
 			$('.placeholder').each(function() {
 				this.value = '';
 			});
