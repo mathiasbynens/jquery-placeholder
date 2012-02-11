@@ -1,4 +1,4 @@
-/*! http://mths.be/placeholder v2.0.1 by @mathias */
+/*! http://mths.be/placeholder v2.0.2 by @mathias */
 ;(function(window, document, $) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
@@ -26,7 +26,7 @@
 					'focus.placeholder': clearPlaceholder,
 					'blur.placeholder': setPlaceholder
 				})
-				.data('jquery-placeholder-enabled', true)
+				.data('placeholder-enabled', true)
 				.trigger('blur.placeholder').end();
 		};
 
@@ -35,23 +35,20 @@
 
 		hooks = {
 			'get': function(element) {
-				var $element = $(element),
-				    isPlaceholderEnabled = $element.data('jquery-placeholder-enabled');
-				return (isPlaceholderEnabled && $element.hasClass('placeholder')) ? '' : element.value;
+				var $element = $(element);
+				return $element.data('placeholder-enabled') && $element.hasClass('placeholder') ? '' : element.value;
 			},
 			'set': function(element, value) {
-				var $element = $(element)
-				    isPlaceholderEnabled = $element.data('jquery-placeholder-enabled');
-				if (isPlaceholderEnabled) {
-					if (value == '') {
-						element.value = value;
-						// We can’t use `triggerHandler` here because of dummy text/password inputs :(
-						setPlaceholder.call(element);
-					} else if ($element.hasClass('placeholder')) {
-						clearPlaceholder.call(element, true, value) || (element.value = value);
-					} else {
-						element.value = value;
-					}
+				var $element = $(element);
+				if (!$element.data('placeholder-enabled')) {
+					return $element.value = value;
+				}
+				if (value == '') {
+					element.value = value;
+					// We can’t use `triggerHandler` here because of dummy text/password inputs :(
+					setPlaceholder.call(element);
+				} else if ($element.hasClass('placeholder')) {
+					clearPlaceholder.call(element, true, value) || (element.value = value);
 				} else {
 					element.value = value;
 				}
