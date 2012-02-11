@@ -1,4 +1,4 @@
-/*! http://mths.be/placeholder v2.0.2 by @mathias */
+/*! http://mths.be/placeholder v2.0.3 by @mathias */
 ;(function(window, document, $) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
@@ -41,7 +41,7 @@
 			'set': function(element, value) {
 				var $element = $(element);
 				if (!$element.data('placeholder-enabled')) {
-					return $element.value = value;
+					return element.value = value;
 				}
 				if (value == '') {
 					element.value = value;
