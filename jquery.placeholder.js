@@ -45,8 +45,11 @@
 				}
 				if (value == '') {
 					element.value = value;
-					// We can’t use `triggerHandler` here because of dummy text/password inputs :(
-					setPlaceholder.call(element);
+					// Issue #56: Setting the placeholder causes problems if the element continues to have focus.
+					if (!$element.is(':focus')) {
+						// We can’t use `triggerHandler` here because of dummy text/password inputs :(
+						setPlaceholder.call(element);
+					}
 				} else if ($element.hasClass('placeholder')) {
 					clearPlaceholder.call(element, true, value) || (element.value = value);
 				} else {
