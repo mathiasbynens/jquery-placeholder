@@ -58,8 +58,11 @@ I’d suggest sticking to the `#aaa` color for placeholder text, as it’s the d
 
 This plugin is dual licensed under the MIT and GPL licenses, just like jQuery itself.
 
-## Credits
+## Thanks to…
 
-Kudos to [Paul Irish](http://paulirish.com/) for his inspiring snippet in [jQuery 1.4 Hawtness #1](http://jquery14.com/day-05/jquery-1-4-hawtness-1-with-paul-irish) and everyone from [#jquery](http://webchat.freenode.net/?channels=jquery) for the tips, ideas and patches. Much ♥ to temp01 for his major contributions.
+* [Paul Irish](http://paulirish.com/) for his inspiring snippet in [jQuery 1.4 Hawtness #1](http://jquery14.com/day-05/jquery-1-4-hawtness-1-with-paul-irish)
+* everyone from [#jquery](http://webchat.freenode.net/?channels=jquery) for the tips, ideas and patches
+* temp01 for his major contributions
+* anyone who [contributed a patch](https://github.com/mathiasbynens/jquery-placeholder/contributors) or [made a helpful suggestion](https://github.com/mathiasbynens/jquery-placeholder/issues)
 
 _– [Mathias](http://mathiasbynens.be/)_

@@ -1,4 +1,4 @@
-/*! http://mths.be/placeholder v2.0.3 by @mathias */
+/*! http://mths.be/placeholder v2.0.4 by @mathias */
 ;(function(window, document, $) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
@@ -46,7 +46,7 @@
 				if (value == '') {
 					element.value = value;
 					// Issue #56: Setting the placeholder causes problems if the element continues to have focus.
-					if (!$element.is(':focus')) {
+					if (element != document.activeElement) {
 						// We can’t use `triggerHandler` here because of dummy text/password inputs :(
 						setPlaceholder.call(element);
 					}
