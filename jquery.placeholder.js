@@ -117,9 +117,9 @@
 		var $replacement,
 		    input = this,
 		    $input = $(input),
-		    $origInput = $input,
+		    placeholderText = $input.attr('placeholder'),
 		    id = this.id;
-		if (input.value == '') {
+		if (input.value == '' || input.value == placeholderText) {
 			if (input.type == 'password') {
 				if (!$input.data('placeholder-textinput')) {
 					try {
@@ -145,7 +145,7 @@
 				// Note: `$input[0] != input` now!
 			}
 			$input.addClass('placeholder');
-			$input[0].value = $input.attr('placeholder');
+			$input[0].value = placeholderText;
 		} else {
 			$input.removeClass('placeholder');
 		}
