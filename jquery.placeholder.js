@@ -133,7 +133,8 @@
 							'placeholder-password': true,
 							'placeholder-id': id
 						})
-						.bind('focus.placeholder', clearPlaceholder);
+						.bind('focus.placeholder', clearPlaceholder)
+                        .bind('focusin focusout focus blur', function () { return false; });
 					$input
 						.data({
 							'placeholder-textinput': $replacement,
