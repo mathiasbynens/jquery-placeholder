@@ -1,4 +1,4 @@
-/*! http://mths.be/placeholder v2.0.4 by @mathias */
+/*! http://mths.be/placeholder v2.0.5 by @mathias */
 ;(function(window, document, $) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
@@ -19,7 +19,8 @@
 	} else {
 
 		placeholder = prototype.placeholder = function() {
-			return this
+			var $this = this;
+			$this
 				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
 				.not('.placeholder')
 				.bind({
@@ -27,7 +28,8 @@
 					'blur.placeholder': setPlaceholder
 				})
 				.data('placeholder-enabled', true)
-				.trigger('blur.placeholder').end();
+				.trigger('blur.placeholder');
+			return $this;
 		};
 
 		placeholder.input = isInputSupported;
