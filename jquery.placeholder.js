@@ -1,4 +1,4 @@
-/*! http://mths.be/placeholder v2.0.5 by @mathias */
+/*! http://mths.be/placeholder v2.0.6 by @mathias */
 ;(function(window, document, $) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
@@ -99,8 +99,10 @@
 
 	function clearPlaceholder(event, value) {
 		var input = this,
-		    $input = $(input);
+		    $input = $(input),
+		    hadFocus;
 		if (input.value == $input.attr('placeholder') && $input.hasClass('placeholder')) {
+			hadFocus = input == document.activeElement;
 			if ($input.data('placeholder-password')) {
 				$input = $input.hide().next().show().attr('id', $input.removeAttr('id').data('placeholder-id'));
 				// If `clearPlaceholder` was called from `$.valHooks.input.set`
@@ -112,6 +114,7 @@
 				input.value = '';
 				$input.removeClass('placeholder');
 			}
+			hadFocus && input.select();
 		}
 	}
 
