@@ -49,7 +49,7 @@
 					element.value = value;
 					// Issue #56: Setting the placeholder causes problems if the element continues to have focus.
 					if (element != document.activeElement) {
-						// We can’t use `triggerHandler` here because of dummy text/password inputs :(
+						// We can't use `triggerHandler` here because of dummy text/password inputs :(
 						setPlaceholder.call(element);
 					}
 				} else if ($element.hasClass('placeholder')) {
@@ -68,7 +68,7 @@
 		$(function() {
 			// Look for forms
 			$(document).delegate('form', 'submit.placeholder', function() {
-				// Clear the placeholder values so they don’t get submitted
+				// Clear the placeholder values so they don't get submitted
 				var $inputs = $('.placeholder', this).each(clearPlaceholder);
 				setTimeout(function() {
 					$inputs.each(setPlaceholder);
