@@ -102,7 +102,10 @@
 		    $input = $(input);
 		if (input.value == $input.attr('placeholder') && $input.hasClass('placeholder')) {
 			if ($input.data('placeholder-password')) {
-				$input = $input.hide().next().show().attr('id', $input.removeAttr('id').data('placeholder-id'));
+				// Sometimes when the input is focused, it appears out of place in IE8. Hiding the input after
+				// removing the id fixes it.
+				$input = $input.next().show().attr('id', $input.removeAttr('id').hide().data('placeholder-id'));
+
 				// If `clearPlaceholder` was called from `$.valHooks.input.set`
 				if (event === true) {
 					return $input[0].value = value;
