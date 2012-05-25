@@ -1,4 +1,4 @@
-/*! http://mths.be/placeholder v2.0.5 by @mathias */
+/** @preserve http://mths.be/placeholder v2.0.5 by @mathias **/
 ;(function(window, document, $) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
