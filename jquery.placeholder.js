@@ -19,16 +19,28 @@
 	} else {
 
 		placeholder = prototype.placeholder = function() {
-			var $this = this;
-			$this
-				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
-				.not('.placeholder')
-				.bind({
-					'focus.placeholder': clearPlaceholder,
-					'blur.placeholder': setPlaceholder
-				})
-				.data('placeholder-enabled', true)
-				.trigger('blur.placeholder');
+			var $this = this,
+        $placeholders = $this.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
+      
+      if (arguments.length > 0 && arguments[0] == 'destroy') {
+        $placeholders
+          .filter( function() { return $(this).data('placeholder-enabled') === true; })
+          .trigger('focus.placeholder')
+          .removeData('placeholder-enabled')
+          .removeData('placeholder-id')
+          .each( function() { var $replacement; if ($replacement = $(this).data('placeholder-textinput')){ $replacement.remove(); }}) 
+          .removeData('placeholder-textinput')
+          .unbind('.placeholder');
+      } else {
+        $placeholders
+          .not('.placeholder')
+          .bind({
+            'focus.placeholder': clearPlaceholder,
+            'blur.placeholder': setPlaceholder
+          })
+          .data('placeholder-enabled', true)
+          .trigger('blur.placeholder');
+      }
 			return $this;
 		};
 
