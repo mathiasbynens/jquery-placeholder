@@ -1,8 +1,10 @@
 /*! http://mths.be/placeholder v2.0.7 by @mathias */
 ;(function(window, document, $) {
 
-	var isInputSupported = 'placeholder' in document.createElement('input'),
-	    isTextareaSupported = 'placeholder' in document.createElement('textarea'),
+	var i = document.createElement("input"),
+	    isInputSupported = typeof i.placeholder !== 'undefined',
+	    t = document.createElement("textarea"),
+	    isTextareaSupported = typeof t.placeholder !== 'undefined',
 	    prototype = $.fn,
 	    valHooks = $.valHooks,
 	    hooks,
