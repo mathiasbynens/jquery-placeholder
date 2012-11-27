@@ -1,0 +1,7 @@
+{
+	"name": "jquery.placeholder",
+	"version": "2.0.7",
+	"devDependencies": {
+		"grunt": ">=0.3.15"
+	}
+}
