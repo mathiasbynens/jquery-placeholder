@@ -1,5 +1,13 @@
 /*! http://mths.be/placeholder v2.0.7 by @mathias */
-;(function(window, document, $) {
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], function(jQuery) { factory(window, document, jQuery); });
+    } else {
+        // Browser globals
+        factory(window, document, jQuery);
+    }
+}(function (window, document, $) {
 
 	var isInputSupported = 'placeholder' in document.createElement('input'),
 	    isTextareaSupported = 'placeholder' in document.createElement('textarea'),
@@ -45,7 +53,7 @@
 				if (!$element.data('placeholder-enabled')) {
 					return element.value = value;
 				}
-				if (value == '') {
+				if (value === '') {
 					element.value = value;
 					// Issue #56: Setting the placeholder causes problems if the element continues to have focus.
 					if (element != document.activeElement) {
@@ -122,7 +130,7 @@
 		    $input = $(input),
 		    $origInput = $input,
 		    id = this.id;
-		if (input.value == '') {
+		if (input.value === '') {
 			if (input.type == 'password') {
 				if (!$input.data('placeholder-textinput')) {
 					try {
@@ -154,4 +162,4 @@
 		}
 	}
 
-}(this, document, jQuery));
+}));
