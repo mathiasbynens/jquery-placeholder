@@ -88,7 +88,7 @@
 	function args(elem) {
 		// Return an object of element attributes
 		var newAttrs = {},
-		    rinlinejQuery = /^jQuery\d+$/;
+			rinlinejQuery = /^jQuery\d+$/;
 		$.each(elem.attributes, function(i, attr) {
 			if (attr.specified && !rinlinejQuery.test(attr.name)) {
 				newAttrs[attr.name] = attr.value;
@@ -99,53 +99,33 @@
 
 	function clearPlaceholder(event, value) {
 		var input = this,
-		    $input = $(input);
+			$input = $(input),
+			$replacement;
+
 		if (input.value == $input.attr('placeholder') && $input.hasClass('placeholder')) {
+			input.value = '';
+			$input.removeClass('placeholder');
+			input == document.activeElement && input.select();
+
 			if ($input.data('placeholder-password')) {
-				$input = $input.hide().next().show().attr('id', $input.removeAttr('id').data('placeholder-id'));
-				// If `clearPlaceholder` was called from `$.valHooks.input.set`
-				if (event === true) {
-					return $input[0].value = value;
-				}
-				$input.focus();
-			} else {
-				input.value = '';
-				$input.removeClass('placeholder');
-				input == document.activeElement && input.select();
+				$replacement = $('<input>').attr($.extend(args(this), { 'type': 'password' }));
+				$input.replaceWith($replacement);
+				$replacement.focus();
 			}
 		}
 	}
 
 	function setPlaceholder() {
-		var $replacement,
-		    input = this,
-		    $input = $(input),
-		    $origInput = $input,
-		    id = this.id;
+		var input = this,
+			$input = $(input),
+			$replacement;
+
 		if (input.value == '') {
 			if (input.type == 'password') {
-				if (!$input.data('placeholder-textinput')) {
-					try {
-						$replacement = $input.clone().attr({ 'type': 'text' });
-					} catch(e) {
-						$replacement = $('<input>').attr($.extend(args(this), { 'type': 'text' }));
-					}
-					$replacement
-						.removeAttr('name')
-						.data({
-							'placeholder-password': true,
-							'placeholder-id': id
-						})
-						.bind('focus.placeholder', clearPlaceholder);
-					$input
-						.data({
-							'placeholder-textinput': $replacement,
-							'placeholder-id': id
-						})
-						.before($replacement);
-				}
-				$input = $input.removeAttr('id').hide().prev().attr('id', id).show();
-				// Note: `$input[0] != input` now!
+				$replacement = $('<input>').attr($.extend(args(this), { 'type': 'text' }));
+				$replacement.data('placeholder-password', true);
+				$input.replaceWith($replacement);
+				$input = $replacement;
 			}
 			$input.addClass('placeholder');
 			$input[0].value = $input.attr('placeholder');
