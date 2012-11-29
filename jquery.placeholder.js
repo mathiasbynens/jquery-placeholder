@@ -23,7 +23,7 @@
 			$this
 				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
 				.not('.placeholder')
-				.bind({
+				.live({
 					'focus.placeholder': clearPlaceholder,
 					'blur.placeholder': setPlaceholder
 				})
