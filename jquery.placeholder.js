@@ -23,7 +23,7 @@
 			$this
 				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
 				.not('.placeholder')
-				.live({
+				.bind({
 					'focus.placeholder': clearPlaceholder,
 					'blur.placeholder': setPlaceholder
 				})
@@ -109,6 +109,7 @@
 
 			if ($input.data('placeholder-password')) {
 				$replacement = $('<input>').attr($.extend(args(this), { 'type': 'password' }));
+				$replacement.bind('blur.placeholder', setPlaceholder);
 				$input.replaceWith($replacement);
 				$replacement.focus();
 			}
@@ -124,6 +125,7 @@
 			if (input.type == 'password') {
 				$replacement = $('<input>').attr($.extend(args(this), { 'type': 'text' }));
 				$replacement.data('placeholder-password', true);
+				$replacement.bind('focus.placeholder', clearPlaceholder);
 				$input.replaceWith($replacement);
 				$input = $replacement;
 			}
