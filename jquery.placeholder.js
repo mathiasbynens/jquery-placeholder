@@ -53,7 +53,7 @@
 						setPlaceholder.call(element);
 					}
 				} else if ($element.hasClass('placeholder')) {
-					clearPlaceholder.call(element, true, value) || (element.value = value);
+					clearPlaceholder.call(element);
 				} else {
 					element.value = value;
 				}
@@ -97,7 +97,7 @@
 		return newAttrs;
 	}
 
-	function clearPlaceholder(event, value) {
+	function clearPlaceholder() {
 		var input = this,
 			$input = $(input),
 			$replacement;
