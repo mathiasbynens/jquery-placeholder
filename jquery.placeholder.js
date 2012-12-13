@@ -107,7 +107,6 @@
 				if (event === true) {
 					return $input[0].value = value;
 				}
-				$input.focus();
 			} else {
 				input.value = '';
 				$input.removeClass('placeholder');
