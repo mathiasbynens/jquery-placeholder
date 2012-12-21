@@ -38,7 +38,7 @@
 		hooks = {
 			'get': function(element) {
 				var $element = $(element);
-				if ($element.data('placeholder-password'))
+				if (!$element.data('placeholder-password'))
 				    return $element.data('placeholder-enabled') && $element.hasClass('placeholder') ? '' : element.value;
 				else
 				    return $element.next().val();
