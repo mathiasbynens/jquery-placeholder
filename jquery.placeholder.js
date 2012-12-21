@@ -39,9 +39,9 @@
 			'get': function(element) {
 				var $element = $(element);
 				if (!$element.data('placeholder-password'))
-				    return $element.data('placeholder-enabled') && $element.hasClass('placeholder') ? '' : element.value;
+					return $element.data('placeholder-enabled') && $element.hasClass('placeholder') ? '' : element.value;
 				else
-				    return $element.next().val();
+					return $element.next().val();
 			},
 			'set': function(element, value) {
 				var $element = $(element);
