@@ -75,6 +75,14 @@
 				}, 10);
 			});
 		});
+		
+		// Prevent anchor tags with javascript hrefs from triggering window.onbeforeunload
+		$('a[href^="javascript:"]').hover( function(){
+	            window.onbeforeunload=null;
+	        },
+	        function(){
+	            window.onbeforeunload=$(window).data('beforeunload');
+	        });
 
 		// Clear placeholder values upon page reload
 		$(window).bind('beforeunload.placeholder', function() {
