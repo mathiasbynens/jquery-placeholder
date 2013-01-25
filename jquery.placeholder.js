@@ -71,7 +71,7 @@
 				// Clear the placeholder values so they don't get submitted
 				var $inputs = $('.placeholder', this).each(clearPlaceholder);
 				setTimeout(function() {
-					$inputs.each(setPlaceholder);
+					$(this).each(setPlaceholder);
 				}, 10);
 			});
 		});
