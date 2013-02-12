@@ -6,7 +6,8 @@
 	    prototype = $.fn,
 	    valHooks = $.valHooks,
 	    hooks,
-	    placeholder;
+	    placeholder,
+	    binder = $.fn.on ? 'on': 'bind';
 
 	if (isInputSupported && isTextareaSupported) {
 
@@ -23,7 +24,7 @@
 			$this
 				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
 				.not('.placeholder')
-				.bind({
+				[binder]({
 					'focus.placeholder': clearPlaceholder,
 					'blur.placeholder': setPlaceholder
 				})
@@ -136,7 +137,7 @@
 							'placeholder-password': true,
 							'placeholder-id': id
 						})
-						.bind('focus.placeholder', clearPlaceholder);
+						[binder]('focus.placeholder', clearPlaceholder);
 					$input
 						.data({
 							'placeholder-textinput': $replacement,
