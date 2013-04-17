@@ -1,8 +1,9 @@
 /*! http://mths.be/placeholder v2.0.7 by @mathias */
 ;(function(window, document, $) {
 
-	var isInputSupported = 'placeholder' in document.createElement('input'),
-	    isTextareaSupported = 'placeholder' in document.createElement('textarea'),
+	var operaMini = navigator.userAgent.match("Opera Mini"),
+	    isInputSupported = 'placeholder' in document.createElement('input') && !operaMini,
+	    isTextareaSupported = 'placeholder' in document.createElement('textarea') && !operaMini,
 	    prototype = $.fn,
 	    valHooks = $.valHooks,
 	    hooks,
