@@ -48,10 +48,16 @@
 				if (value == '') {
 					element.value = value;
 					// Issue #56: Setting the placeholder causes problems if the element continues to have focus.
-					if (element != document.activeElement) {
+					try { 
+						//IE9 has throws "unspecified error" with document.activeElement when inside of an iframe.
+						//JQuery mobile wraps in empty try/catch to "fix" https://github.com/jquery/jquery-mobile/issues/2064
+						if (element != document.activeElement) {
 						// We can't use `triggerHandler` here because of dummy text/password inputs :(
-						setPlaceholder.call(element);
-					}
+							setPlaceholder.call(element);
+						}
+						
+					} catch(e){}
+
 				} else if ($element.hasClass('placeholder')) {
 					clearPlaceholder.call(element, true, value) || (element.value = value);
 				} else {
