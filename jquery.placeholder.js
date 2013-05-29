@@ -5,6 +5,7 @@
 	    isTextareaSupported = 'placeholder' in document.createElement('textarea'),
 	    prototype = $.fn,
 	    valHooks = $.valHooks,
+	    propHooks = $.propHooks,
 	    hooks,
 	    placeholder;
 
@@ -62,8 +63,14 @@
 			}
 		};
 
-		isInputSupported || (valHooks.input = hooks);
-		isTextareaSupported || (valHooks.textarea = hooks);
+		if (!isInputSupported) {
+			valHooks.input = hooks;
+			propHooks.value = hooks;
+		}
+		if (!isTextareaSupported) {
+			valHooks.textarea = hooks;
+			propHooks.value = hooks;
+		}
 
 		$(function() {
 			// Look for forms
