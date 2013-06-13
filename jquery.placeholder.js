@@ -25,7 +25,8 @@
 				.not('.placeholder')
 				.bind({
 					'focus.placeholder': clearPlaceholder,
-					'blur.placeholder': setPlaceholder
+					'blur.placeholder': setPlaceholder,
+					'change.placeholder': setPlaceholder
 				})
 				.data('placeholder-enabled', true)
 				.trigger('blur.placeholder');
