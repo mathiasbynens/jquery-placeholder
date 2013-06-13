@@ -115,21 +115,33 @@
 			}
 		}
 	}
-
 	function setPlaceholder() {
-		var $replacement,
-		    input = this,
-		    $input = $(input),
-		    $origInput = $input,
-		    id = this.id;
-		if (input.value == '') {
-			if (input.type == 'password') {
+		var
+			$replacement,
+			input,
+			$input,
+			id;
+
+		id = this.id;
+		input = this;
+		$input = $(input);
+
+		if (input.value === '') {
+			if (input.type === 'password') {
 				if (!$input.data('placeholder-textinput')) {
 					try {
-						$replacement = $input.clone().attr({ 'type': 'text' });
+						$replacement = $input
+							.clone()
+							.attr({
+								type: 'text'
+							});
 					} catch(e) {
-						$replacement = $('<input>').attr($.extend(args(this), { 'type': 'text' }));
+						$replacement = $('<input>')
+							.attr($.extend(args(this), {
+								type: 'text'
+							}));
 					}
+
 					$replacement
 						.removeAttr('name')
 						.data({
@@ -137,6 +149,7 @@
 							'placeholder-id': id
 						})
 						.bind('focus.placeholder', clearPlaceholder);
+
 					$input
 						.data({
 							'placeholder-textinput': $replacement,
@@ -144,14 +157,18 @@
 						})
 						.before($replacement);
 				}
-				$input = $input.removeAttr('id').hide().prev().attr('id', id).show();
+				$input = $input
+					.removeAttr('id')
+					.hide()
+					.prev()
+					.attr('id', id)
+					.show();
 				// Note: `$input[0] != input` now!
 			}
 			$input.addClass('placeholder');
 			$input[0].value = $input.attr('placeholder');
-		} else {
+		} else if (input.value !== $input.attr('placeholder')) {
 			$input.removeClass('placeholder');
 		}
 	}
-
 }(this, document, jQuery));
