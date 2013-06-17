@@ -123,7 +123,7 @@
 		    $input = $(input),
 		    $origInput = $input,
 		    id = this.id;
-		if (input.value == '') {
+		if (input.value == '' && !$input.hasClass('placeholder')) {
 			if (input.type == 'password') {
 				if (!$input.data('placeholder-textinput')) {
 					try {
@@ -150,7 +150,7 @@
 			}
 			$input.addClass('placeholder');
 			$input[0].value = $input.attr('placeholder');
-		} else {
+		} else if (input.value != $input.attr('placeholder')){
 			$input.removeClass('placeholder');
 		}
 	}
