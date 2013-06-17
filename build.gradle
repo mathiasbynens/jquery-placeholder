@@ -1,0 +1,19 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'com.eriwen:gradle-js-plugin:1.5.1'
+	}
+}
+
+apply plugin: 'base' // provides 'clean' task
+apply plugin: 'js'
+
+minifyJs {
+	source = file('jquery.placeholder.js')
+	dest = file('jquery.placeholder.min.js')
+	closure {
+		warningLevel = 'QUIET'
+	}
+}
