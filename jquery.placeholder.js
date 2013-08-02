@@ -26,10 +26,11 @@
 				.not('.placeholder')
 				.bind({
 					'focus.placeholder': clearPlaceholder,
-					'blur.placeholder': setPlaceholder
+					'blur.placeholder': setPlaceholder,
+					'phinit.placeholder': setPlaceholder
 				})
 				.data('placeholder-enabled', true)
-				.trigger('blur.placeholder');
+				.trigger('phinit.placeholder');
 			return $this;
 		};
 
