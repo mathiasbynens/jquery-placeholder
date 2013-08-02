@@ -139,7 +139,6 @@
 		var $replacement;
 		var input = this;
 		var $input = $(input);
-		var $origInput = $input;
 		var id = this.id;
 		if (input.value == '') {
 			if (input.type == 'password') {
