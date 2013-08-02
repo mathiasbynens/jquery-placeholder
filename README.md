@@ -64,7 +64,7 @@ bower install jquery-placeholder
 
 ## License
 
-This plugin is dual licensed under the MIT and GPL licenses, just like jQuery itself.
+This plugin is available under [the MIT license](http://mths.be/mit).
 
 ## Thanks to…
 
