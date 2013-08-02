@@ -39,7 +39,7 @@
 		hooks = {
 			'get': function(element) {
 				var $element = $(element);
-				return $element.data('placeholder-enabled') && $element.hasClass('placeholder') ? '' : element.value;
+				return ($element.data('placeholder-enabled') || $element.data('placeholder-password') ) && $element.hasClass('placeholder') ? '' : element.value;
 			},
 			'set': function(element, value) {
 				var $element = $(element);
@@ -109,7 +109,7 @@
 		    $input = $(input);
 		if (input.value == $input.attr('placeholder') && $input.hasClass('placeholder')) {
 			if ($input.data('placeholder-password')) {
-				$input = $input.hide().next().show().attr('id', $input.removeAttr('id').data('placeholder-id'));
+				$input = $input.hide().next().show().attr('id', $input.removeAttr('id').data('placeholder-id')).attr('name', $input.removeAttr('name').data('placeholder-name'));
 				// If `clearPlaceholder` was called from `$.valHooks.input.set`
 				if (event === true) {
 					return $input[0].value = value;
@@ -128,6 +128,7 @@
 		    input = this,
 		    $input = $(input),
 		    $origInput = $input,
+			name = $input.attr('name'),
 		    id = this.id;
 		if (input.value == '') {
 			if (input.type == 'password') {
@@ -137,17 +138,19 @@
 					} catch(e) {
 						$replacement = $('<input>').attr($.extend(args(this), { 'type': 'text' }));
 					}
-					$replacement
-						.removeAttr('name')
+					$replacement /* .removeAttr('name') */
 						.data({
 							'placeholder-password': true,
-							'placeholder-id': id
+							'placeholder-id': id,
+							'placeholder-name': $input.attr('name')
 						})
 						.bind('focus.placeholder', clearPlaceholder);
-					$input
+					$input 
+						.attr('name', 'hidden-' + name)
 						.data({
 							'placeholder-textinput': $replacement,
-							'placeholder-id': id
+							'placeholder-id': id,
+							'placeholder-name': $replacement.attr('name')
 						})
 						.before($replacement);
 				}
