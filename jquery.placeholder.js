@@ -120,14 +120,15 @@
       input = this,
       $input = $(input);
 
-    if (input.value == $input.attr('placeholder') &&
+    if (input.value === $input.attr('placeholder') &&
       $input.hasClass('placeholder')) {
       if ($input.data('placeholder-password')) {
         $input
           .hide()
           .next()
           .show()
-          .attr('id', $input.data('placeholder-id'));
+          .attr('id', $input.removeAttr('id')
+						.data('placeholder-id'));
 
         // If `clearPlaceholder` was called from `$.valHooks.input.set`
         if (event === true) {
@@ -179,7 +180,9 @@
               'placeholder-password': true,
               'placeholder-id': id
             })
-            .bind('focus.placeholder', clearPlaceholder);
+            .bind('focus.placeholder', clearPlaceholder)
+						.addClass('placeholder')
+						.val($input.attr('placeholder'));
 
           $input
             .data({
@@ -200,7 +203,6 @@
       }
 
       $input.addClass('placeholder');
-      $input[0].value = $input.attr('placeholder');
     } else if (input.value !== $input.attr('placeholder')) {
       $input.removeClass('placeholder');
     }
