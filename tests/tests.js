@@ -49,6 +49,13 @@
 		strictEqual($el.prop('value'), '', '`$el.val("")` should change the `value` property');
 		strictEqual(el.value, placeholder, '`$el.val("")` should change the `value` attribute');
 		ok($el.hasClass('placeholder'), '`$el.val("")` should re-enable `placeholder` class');
+
+		// make sure the placeholder property works as expected.
+		strictEqual($el.prop('placeholder'), placeholder, '$el.prop(`placeholder`) should return the placeholder value');
+		$el.prop('placeholder', 'new placeholder');
+		strictEqual($el.prop('placeholder'), 'new placeholder', '$el.prop(`placeholder`, <string>) should set the placeholder value');
+		strictEqual($el.value, 'new placeholder', '$el.prop(`placeholder`, <string>) should update the displayed placeholder value');
+		$el.prop('placeholder', placeholder);
 	};
 
 	test('emulates placeholder for <input type=text>', function() {
