@@ -140,7 +140,7 @@
 		var input = this;
 		var $input = $(input);
 		var id = this.id;
-		if (input.value == '') {
+		if (input.value == '' || input.value == $input.attr('placeholder')) {
 			if (input.type == 'password') {
 				if (!$input.data('placeholder-textinput')) {
 					try {
