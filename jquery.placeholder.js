@@ -23,12 +23,12 @@
 			var $this = this;
 			$this
 				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
-				.not('.placeholder')
+				.not('.placeholder-enabled')
 				.bind({
 					'focus.placeholder': clearPlaceholder,
 					'blur.placeholder': setPlaceholder
 				})
-				.data('placeholder-enabled', true)
+				.addClass('placeholder-enabled')
 				.trigger('blur.placeholder');
 			return $this;
 		};
@@ -45,7 +45,7 @@
 					return $passwordInput[0].value;
 				}
 
-				return $element.data('placeholder-enabled') && $element.hasClass('placeholder') ? '' : element.value;
+				return $element.hasClass('placeholder-enabled') && $element.hasClass('placeholder') ? '' : element.value;
 			},
 			'set': function(element, value) {
 				var $element = $(element);
@@ -55,7 +55,7 @@
 					return $passwordInput[0].value = value;
 				}
 
-				if (!$element.data('placeholder-enabled')) {
+				if (!$element.hasClass('placeholder-enabled')) {
 					return element.value = value;
 				}
 				if (value == '') {
