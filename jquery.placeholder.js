@@ -29,7 +29,7 @@
 					'blur.placeholder': setPlaceholder
 				})
 				.data('placeholder-enabled', true)
-				.trigger('blur.placeholder');
+				.each(setPlaceholder);
 			return $this;
 		};
 
