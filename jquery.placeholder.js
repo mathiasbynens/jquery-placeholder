@@ -18,82 +18,105 @@
 		placeholder.input = placeholder.textarea = true;
 
 	} else {
-
-		placeholder = prototype.placeholder = function() {
-			var $this = this;
-			$this
-				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
-				.not('.placeholder')
-				.bind({
-					'focus.placeholder': clearPlaceholder,
-					'blur.placeholder': setPlaceholder
-				})
-				.data('placeholder-enabled', true)
-				.trigger('blur.placeholder');
-			return $this;
-		};
-
-		placeholder.input = isInputSupported;
-		placeholder.textarea = isTextareaSupported;
-
-		hooks = {
-			'get': function(element) {
-				var $element = $(element);
-
-				var $passwordInput = $element.data('placeholder-password');
-				if ($passwordInput) {
-					return $passwordInput[0].value;
-				}
-
-				return $element.data('placeholder-enabled') && $element.hasClass('placeholder') ? '' : element.value;
-			},
-			'set': function(element, value) {
-				var $element = $(element);
-
-				var $passwordInput = $element.data('placeholder-password');
-				if ($passwordInput) {
-					return $passwordInput[0].value = value;
-				}
-
-				if (!$element.data('placeholder-enabled')) {
-					return element.value = value;
-				}
-				if (value == '') {
-					element.value = value;
-					// Issue #56: Setting the placeholder causes problems if the element continues to have focus.
-					if (element != document.activeElement) {
-						// We can't use `triggerHandler` here because of dummy text/password inputs :(
-						setPlaceholder.call(element);
+		
+		var isIE10Compat = false;
+		var inputElem = document.createElement('input'), ret = document.createAttribute('placeholder');
+		inputElem.setAttributeNode(ret);
+		try {
+			// IE10 compat view check
+			ret.nodeValue = "";
+		} catch (e) {
+			isIE10Compat = true;
+		}
+		
+		if (isIE10Compat) {
+			// IE10 compat view - cannot set placeholder attribute - fallback
+			placeholder = prototype.placeholder = function() {
+				var $this = this;
+				$this
+					.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
+					.not('.placeholder')
+					.data('placeholder-enabled', false);
+				return $this;
+			};
+			placeholder.input = placeholder.textarea = true;
+		} else {
+			placeholder = prototype.placeholder = function() {
+				var $this = this;
+				$this
+					.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
+					.not('.placeholder')
+					.bind({
+						'focus.placeholder': clearPlaceholder,
+						'blur.placeholder': setPlaceholder
+					})
+					.data('placeholder-enabled', true)
+					.trigger('blur.placeholder');
+				return $this;
+			};
+	
+			placeholder.input = isInputSupported;
+			placeholder.textarea = isTextareaSupported;
+	
+			hooks = {
+				'get': function(element) {
+					var $element = $(element);
+	
+					var $passwordInput = $element.data('placeholder-password');
+					if ($passwordInput) {
+						return $passwordInput[0].value;
 					}
-				} else if ($element.hasClass('placeholder')) {
-					clearPlaceholder.call(element, true, value) || (element.value = value);
-				} else {
-					element.value = value;
+	
+					return $element.data('placeholder-enabled') && $element.hasClass('placeholder') ? '' : element.value;
+				},
+				'set': function(element, value) {
+					var $element = $(element);
+	
+					var $passwordInput = $element.data('placeholder-password');
+					if ($passwordInput) {
+						return $passwordInput[0].value = value;
+					}
+	
+					if (!$element.data('placeholder-enabled')) {
+						return element.value = value;
+					}
+					if (value == '') {
+						element.value = value;
+						// Issue #56: Setting the placeholder causes problems if the element continues to have focus.
+						if (element != document.activeElement) {
+							// We can't use `triggerHandler` here because of dummy text/password inputs :(
+							setPlaceholder.call(element);
+						}
+					} else if ($element.hasClass('placeholder')) {
+						clearPlaceholder.call(element, true, value) || (element.value = value);
+					} else {
+						element.value = value;
+					}
+					// `set` can not return `undefined`; see http://jsapi.info/jquery/1.7.1/val#L2363
+					return $element;
 				}
-				// `set` can not return `undefined`; see http://jsapi.info/jquery/1.7.1/val#L2363
-				return $element;
+			};
+	
+			if (!isInputSupported) {
+				valHooks.input = hooks;
+				propHooks.value = hooks;
 			}
-		};
-
-		if (!isInputSupported) {
-			valHooks.input = hooks;
-			propHooks.value = hooks;
-		}
-		if (!isTextareaSupported) {
-			valHooks.textarea = hooks;
-			propHooks.value = hooks;
-		}
-
-		$(function() {
-			// Look for forms
-			$(document).delegate('form', 'submit.placeholder', function() {
-				// Clear the placeholder values so they don't get submitted
-				var $inputs = $('.placeholder', this).each(clearPlaceholder);
-				setTimeout(function() {
-					$inputs.each(setPlaceholder);
-				}, 10);
+			if (!isTextareaSupported) {
+				valHooks.textarea = hooks;
+				propHooks.value = hooks;
+			}
+			
+			$(function() {
+				// Look for forms
+				$(document).delegate('form', 'submit.placeholder', function() {
+					// Clear the placeholder values so they don't get submitted
+					var $inputs = $('.placeholder', this).each(clearPlaceholder);
+					setTimeout(function() {
+						$inputs.each(setPlaceholder);
+					}, 10);
+				});
 			});
-		});
+		}
 
 		// Clear placeholder values upon page reload
 		$(window).bind('beforeunload.placeholder', function() {
@@ -101,7 +124,6 @@
 				this.value = '';
 			});
 		});
-
 	}
 
 	function args(elem) {
