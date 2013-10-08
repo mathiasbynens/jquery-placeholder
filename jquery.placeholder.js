@@ -18,105 +18,81 @@
 		placeholder.input = placeholder.textarea = true;
 
 	} else {
-		
-		var isIE10Compat = false;
-		var inputElem = document.createElement('input'), ret = document.createAttribute('placeholder');
-		inputElem.setAttributeNode(ret);
-		try {
-			// IE10 compat view check
-			ret.nodeValue = "";
-		} catch (e) {
-			isIE10Compat = true;
-		}
-		
-		if (isIE10Compat) {
-			// IE10 compat view - cannot set placeholder attribute - fallback
-			placeholder = prototype.placeholder = function() {
-				var $this = this;
-				$this
-					.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
-					.not('.placeholder')
-					.data('placeholder-enabled', false);
-				return $this;
-			};
-			placeholder.input = placeholder.textarea = true;
-		} else {
-			placeholder = prototype.placeholder = function() {
-				var $this = this;
-				$this
-					.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
-					.not('.placeholder')
-					.bind({
-						'focus.placeholder': clearPlaceholder,
-						'blur.placeholder': setPlaceholder
-					})
-					.data('placeholder-enabled', true)
-					.trigger('blur.placeholder');
-				return $this;
-			};
-	
-			placeholder.input = isInputSupported;
-			placeholder.textarea = isTextareaSupported;
-	
-			hooks = {
-				'get': function(element) {
-					var $element = $(element);
-	
-					var $passwordInput = $element.data('placeholder-password');
-					if ($passwordInput) {
-						return $passwordInput[0].value;
-					}
-	
-					return $element.data('placeholder-enabled') && $element.hasClass('placeholder') ? '' : element.value;
-				},
-				'set': function(element, value) {
-					var $element = $(element);
-	
-					var $passwordInput = $element.data('placeholder-password');
-					if ($passwordInput) {
-						return $passwordInput[0].value = value;
-					}
-	
-					if (!$element.data('placeholder-enabled')) {
-						return element.value = value;
-					}
-					if (value == '') {
-						element.value = value;
-						// Issue #56: Setting the placeholder causes problems if the element continues to have focus.
-						if (element != document.activeElement) {
-							// We can't use `triggerHandler` here because of dummy text/password inputs :(
-							setPlaceholder.call(element);
-						}
-					} else if ($element.hasClass('placeholder')) {
-						clearPlaceholder.call(element, true, value) || (element.value = value);
-					} else {
-						element.value = value;
-					}
-					// `set` can not return `undefined`; see http://jsapi.info/jquery/1.7.1/val#L2363
-					return $element;
+		placeholder = prototype.placeholder = function() {
+			var $this = this;
+			$this
+				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
+				.not('.placeholder')
+				.bind({
+					'focus.placeholder': clearPlaceholder,
+					'blur.placeholder': setPlaceholder
+				})
+				.data('placeholder-enabled', true)
+				.trigger('blur.placeholder');
+			return $this;
+		};
+
+		placeholder.input = isInputSupported;
+		placeholder.textarea = isTextareaSupported;
+
+		hooks = {
+			'get': function(element) {
+				var $element = $(element);
+
+				var $passwordInput = $element.data('placeholder-password');
+				if ($passwordInput) {
+					return $passwordInput[0].value;
 				}
-			};
-	
-			if (!isInputSupported) {
-				valHooks.input = hooks;
-				propHooks.value = hooks;
+
+				return $element.data('placeholder-enabled') && $element.hasClass('placeholder') ? '' : element.value;
+			},
+			'set': function(element, value) {
+				var $element = $(element);
+
+				var $passwordInput = $element.data('placeholder-password');
+				if ($passwordInput) {
+					return $passwordInput[0].value = value;
+				}
+
+				if (!$element.data('placeholder-enabled')) {
+					return element.value = value;
+				}
+				if (value == '') {
+					element.value = value;
+					// Issue #56: Setting the placeholder causes problems if the element continues to have focus.
+					if (element != document.activeElement) {
+						// We can't use `triggerHandler` here because of dummy text/password inputs :(
+						setPlaceholder.call(element);
+					}
+				} else if ($element.hasClass('placeholder')) {
+					clearPlaceholder.call(element, true, value) || (element.value = value);
+				} else {
+					element.value = value;
+				}
+				// `set` can not return `undefined`; see http://jsapi.info/jquery/1.7.1/val#L2363
+				return $element;
 			}
-			if (!isTextareaSupported) {
-				valHooks.textarea = hooks;
-				propHooks.value = hooks;
-			}
-			
-			$(function() {
-				// Look for forms
-				$(document).delegate('form', 'submit.placeholder', function() {
-					// Clear the placeholder values so they don't get submitted
-					var $inputs = $('.placeholder', this).each(clearPlaceholder);
-					setTimeout(function() {
-						$inputs.each(setPlaceholder);
-					}, 10);
-				});
-			});
+		};
+
+		if (!isInputSupported) {
+			valHooks.input = hooks;
+			propHooks.value = hooks;
 		}
+		if (!isTextareaSupported) {
+			valHooks.textarea = hooks;
+			propHooks.value = hooks;
+		}
+		
+		$(function() {
+			// Look for forms
+			$(document).delegate('form', 'submit.placeholder', function() {
+				// Clear the placeholder values so they don't get submitted
+				var $inputs = $('.placeholder', this).each(clearPlaceholder);
+				setTimeout(function() {
+					$inputs.each(setPlaceholder);
+				}, 10);
+			});
+		});
 
 		// Clear placeholder values upon page reload
 		$(window).bind('beforeunload.placeholder', function() {
@@ -141,7 +117,9 @@
 	function clearPlaceholder(event, value) {
 		var input = this;
 		var $input = $(input);
-		if (input.value == $input.attr('placeholder') && $input.hasClass('placeholder')) {
+		var hint = $input.data('placeholder-hint');
+		if (hint === undefined) hint = $input.attr('placeholder');
+		if (input.value === hint && $input.hasClass('placeholder')) {
 			if ($input.data('placeholder-password')) {
 				$input = $input.hide().next().show().attr('id', $input.removeAttr('id').data('placeholder-id'));
 				// If `clearPlaceholder` was called from `$.valHooks.input.set`
@@ -163,18 +141,43 @@
 		var $input = $(input);
 		var id = this.id;
 		if (input.value == '') {
+			var hint = $input.attr('placeholder');
 			if (input.type == 'password') {
 				if (!$input.data('placeholder-textinput')) {
+					var isIE10Compat = false, inputElem = document.createElement('input'), ret = document.createAttribute('placeholder');
+					inputElem.setAttributeNode(ret);
 					try {
-						$replacement = $input.clone().attr({ 'type': 'text' });
-					} catch(e) {
-						$replacement = $('<input>').attr($.extend(args(this), { 'type': 'text' }));
+						// IE10 compat view check
+						ret.nodeValue = "";
+					} catch (e) {
+						isIE10Compat = true;
+					}
+					if (isIE10Compat) {
+						$replacement = $('<input>').attr({'type': 'text'}).data('placeholder-hint', hint);
+						for (var name in args(input)) {
+							if (name !== 'type' && name !== 'name') {
+								var value = $input.attr(name) + "";
+								var ret = $replacement[0].ownerDocument.createAttribute(name);
+								try {
+									ret.value = value;
+								} catch (e) {
+									$replacement[0].setAttribute(name, value);
+								}
+							}
+						}
+					} else {
+						try {
+							$replacement = $input.clone().attr({ 'type': 'text' });
+						} catch(e) {
+							$replacement = $('<input>').attr($.extend(args(this), { 'type': 'text' }));
+						}
 					}
 					$replacement
 						.removeAttr('name')
 						.data({
 							'placeholder-password': $input,
-							'placeholder-id': id
+							'placeholder-id': id,
+							'placeholder-hint': hint
 						})
 						.bind('focus.placeholder', clearPlaceholder);
 					$input
@@ -188,7 +191,7 @@
 				// Note: `$input[0] != input` now!
 			}
 			$input.addClass('placeholder');
-			$input[0].value = $input.attr('placeholder');
+			$input[0].value = hint;
 		} else {
 			$input.removeClass('placeholder');
 		}
