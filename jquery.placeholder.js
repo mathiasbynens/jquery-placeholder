@@ -144,32 +144,23 @@
 			var hint = $input.attr('placeholder');
 			if (input.type == 'password') {
 				if (!$input.data('placeholder-textinput')) {
-					var isIE10Compat = false, inputElem = document.createElement('input'), ret = document.createAttribute('placeholder');
-					inputElem.setAttributeNode(ret);
 					try {
-						// IE10 compat view check
-						ret.nodeValue = "";
-					} catch (e) {
-						isIE10Compat = true;
-					}
-					if (isIE10Compat) {
-						$replacement = $('<input>').attr({'type': 'text'}).data('placeholder-hint', hint);
-						for (var name in args(input)) {
-							if (name !== 'type' && name !== 'name') {
-								var value = $input.attr(name) + "";
-								var ret = $replacement[0].ownerDocument.createAttribute(name);
-								try {
-									ret.value = value;
-								} catch (e) {
-									$replacement[0].setAttribute(name, value);
+						$replacement = $input.clone().attr({ 'type': 'text' });
+					} catch(e) {
+						$replacement = $('<input>').attr({ 'type': 'text' });
+						try {
+							$replacement.attr($.extend(args(this), { 'type': 'text' }));
+						} catch (eCompat) {
+							for (var name in args(input)) {
+								if (name !== 'type' && name !== 'name') {
+									var value = $input.attr(name) + "";
+									try {
+										$replacement[0].ownerDocument.createAttribute(name).value = value;
+									} catch (eAttr) {
+										$replacement[0].setAttribute(name, value);
+									}
 								}
 							}
-						}
-					} else {
-						try {
-							$replacement = $input.clone().attr({ 'type': 'text' });
-						} catch(e) {
-							$replacement = $('<input>').attr($.extend(args(this), { 'type': 'text' }));
 						}
 					}
 					$replacement
