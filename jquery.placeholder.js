@@ -61,7 +61,7 @@
 				if (value == '') {
 					element.value = value;
 					// Issue #56: Setting the placeholder causes problems if the element continues to have focus.
-					if (element != document.activeElement) {
+					if (element != safeActiveElement()) {
 						// We can't use `triggerHandler` here because of dummy text/password inputs :(
 						setPlaceholder.call(element);
 					}
@@ -130,7 +130,7 @@
 			} else {
 				input.value = '';
 				$input.removeClass('placeholder');
-				input == document.activeElement && input.select();
+				input == safeActiveElement() && input.select();
 			}
 		}
 	}
@@ -170,6 +170,14 @@
 		} else {
 			$input.removeClass('placeholder');
 		}
+	}
+
+	function safeActiveElement() {
+		// Avoid IE9 `document.activeElement` of death
+		// https://github.com/mathiasbynens/jquery-placeholder/pull/99
+		try {
+			return document.activeElement;
+		} catch (err) {}
 	}
 
 }(this, document, jQuery));
