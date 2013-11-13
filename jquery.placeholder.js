@@ -8,6 +8,7 @@
 	var propHooks = $.propHooks;
 	var hooks;
 	var placeholder;
+	var placeholderHooks;
 
 	if (isInputSupported && isTextareaSupported) {
 
@@ -75,13 +76,21 @@
 			}
 		};
 
+		placeholderHooks = {
+			'set': function (element, value) {
+				setPlaceholder.apply(element, [value]);
+			}
+		}
+
 		if (!isInputSupported) {
 			valHooks.input = hooks;
 			propHooks.value = hooks;
+			propHooks.placeholder = placeholderHooks;
 		}
 		if (!isTextareaSupported) {
 			valHooks.textarea = hooks;
 			propHooks.value = hooks;
+			propHooks.placeholder = placeholderHooks;
 		}
 
 		$(function() {
@@ -135,7 +144,7 @@
 		}
 	}
 
-	function setPlaceholder() {
+	function setPlaceholder(placeholderText) {
 		var $replacement;
 		var input = this;
 		var $input = $(input);
@@ -166,7 +175,10 @@
 				// Note: `$input[0] != input` now!
 			}
 			$input.addClass('placeholder');
-			$input[0].value = $input.attr('placeholder');
+			$input[0].value =
+				(placeholderText === undefined) ?
+				$input.attr('placeholder') :
+				placeholderText;
 		} else {
 			$input.removeClass('placeholder');
 		}
