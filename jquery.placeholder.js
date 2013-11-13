@@ -78,7 +78,7 @@
 
 		placeholderHooks = {
 			'set': function (element, value) {
-				setPlaceholder.apply(element, [value]);
+				setPlaceholderVal.apply(element, [value]);
 			}
 		}
 
@@ -144,7 +144,14 @@
 		}
 	}
 
-	function setPlaceholder(placeholderText) {
+	function setPlaceholder (e) {
+		var $input, placeholderText;
+		$input = $(this);
+		placeholderText = $input.attr('placeholder');
+		return setPlaceholderVal.call(this, [placeholderText]);
+        }
+
+	function setPlaceholderVal(placeholderText) {
 		var $replacement;
 		var input = this;
 		var $input = $(input);
@@ -175,10 +182,7 @@
 				// Note: `$input[0] != input` now!
 			}
 			$input.addClass('placeholder');
-			$input[0].value =
-				(placeholderText === undefined) ?
-				$input.attr('placeholder') :
-				placeholderText;
+			$input[0].value = placeholderText;
 		} else {
 			$input.removeClass('placeholder');
 		}
