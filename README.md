@@ -39,6 +39,14 @@ input, textarea { color: #000; }
 
 I’d suggest sticking to the `#aaa` color for placeholder text, as it’s the default in most browsers that support `@placeholder`. If you really want to, though, you can [style the placeholder text in some of the browsers that natively support it](http://stackoverflow.com/questions/2610497/change-an-inputs-html5-placeholder-color-with-css/2610741#2610741).
 
+## Installation
+
+You can install jquery-placeholder by using [Bower](http://bower.io).
+
+```bash
+bower install jquery-placeholder
+```
+
 ## Notes
 
 * Requires jQuery 1.6+. For an older version of this plugin that works under jQuery 1.4.2+, see [v1.8.7](https://github.com/mathiasbynens/jquery-placeholder/tree/1.8.7).
@@ -56,7 +64,7 @@ I’d suggest sticking to the `#aaa` color for placeholder text, as it’s the d
 
 ## License
 
-This plugin is dual licensed under the MIT and GPL licenses, just like jQuery itself.
+This plugin is available under [the MIT license](http://mths.be/mit).
 
 ## Thanks to…
 
