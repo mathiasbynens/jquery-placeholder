@@ -66,7 +66,7 @@
 						setPlaceholder.call(element);
 					}
 				} else if ($element.hasClass('placeholder')) {
-					clearPlaceholder.call(element);
+					clearPlaceholder.call(element, true, value) || (element.value = value);
 				} else {
 					element.value = value;
 				}
@@ -116,7 +116,7 @@
 		return newAttrs;
 	}
 
-	function clearPlaceholder() {
+	function clearPlaceholder(event, value) {
 		var input = this;
 		var $input = $(input);
 		var $replacement;
@@ -130,7 +130,7 @@
 				$replacement = $('<input>').attr($.extend(args(this), { 'type': 'password' }));
 				$replacement.bind('blur.placeholder', setPlaceholder);
 				$input.replaceWith($replacement);
-				
+
 				if (event === true) {
 					return $replacement[0].value = value;
 				}
@@ -147,7 +147,7 @@
 		if (input.value == '') {
 			if (input.type == 'password') {
 				$replacement = $('<input>').attr($.extend(args(this), { 'type': 'text' }));
-				$replacement.data('placeholder-password', true);
+				$replacement.data('placeholder-password', $input);
 				$replacement.bind('focus.placeholder', clearPlaceholder);
 				$input.replaceWith($replacement);
 				$input = $replacement;
