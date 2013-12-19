@@ -8,6 +8,7 @@
 	var propHooks = $.propHooks;
 	var hooks;
 	var placeholder;
+	var options = {};
 
 	if (isInputSupported && isTextareaSupported) {
 
@@ -19,10 +20,12 @@
 
 	} else {
 
-		placeholder = prototype.placeholder = function() {
+		placeholder = prototype.placeholder = function(opts) {
+			$.extend(options, opts);
 			var $this = this;
+			var filter = (isInputSupported ? 'textarea' : ':input') + '[placeholder]';
 			$this
-				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
+				.filter(filter)
 				.not('.placeholder')
 				.bind({
 					'focus.placeholder': clearPlaceholder,
@@ -32,6 +35,7 @@
 				.trigger('blur.placeholder');
 			return $this;
 		};
+		
 
 		placeholder.input = isInputSupported;
 		placeholder.textarea = isTextareaSupported;
@@ -48,6 +52,7 @@
 				return $element.data('placeholder-enabled') && $element.hasClass('placeholder') ? '' : element.value;
 			},
 			'set': function(element, value) {
+				console.log(element.id);
 				var $element = $(element);
 
 				var $passwordInput = $element.data('placeholder-password');
@@ -98,7 +103,7 @@
 		// Clear placeholder values upon page reload
 		$(window).bind('beforeunload.placeholder', function() {
 			$('.placeholder').each(function() {
-				this.value = '';
+//				this.value = '';
 			});
 		});
 
@@ -160,10 +165,17 @@
 							'placeholder-textinput': $replacement,
 							'placeholder-id': id
 						})
+						.keydown(function(event){
+							if($.isFunction(options.keydown))
+								options.keydown(event);
+					    })
 						.before($replacement);
+					
 				}
+				
 				$input = $input.removeAttr('id').hide().prev().attr('id', id).show();
 				// Note: `$input[0] != input` now!
+				
 			}
 			$input.addClass('placeholder');
 			$input[0].value = $input.attr('placeholder');
