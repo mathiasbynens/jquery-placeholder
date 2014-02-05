@@ -168,7 +168,7 @@
 				// Note: `$input[0] != input` now!
 			}
 			$input.addClass('placeholder');
-			$input[0].value = $input.attr('placeholder');
+			$input[0].value = $input.attr('placeholder') ?  $input.attr('placeholder') : '';
 		} else {
 			$input.removeClass('placeholder');
 		}
