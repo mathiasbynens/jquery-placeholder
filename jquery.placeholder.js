@@ -1,5 +1,13 @@
 /*! http://mths.be/placeholder v2.0.8 by @mathias */
-;(function(window, document, $) {
+(function(factory) {
+	if (typeof define === 'function' && define.amd) {
+		// AMD
+		define(['jquery'], factory);
+	} else {
+		// Browser globals
+		factory(jQuery);
+	}
+}(function($) {
 
 	// Opera Mini v7 doesn’t support placeholder although its DOM seems to indicate so
 	var isOperaMini = Object.prototype.toString.call(window.operamini) == '[object OperaMini]';
@@ -181,4 +189,4 @@
 		} catch (exception) {}
 	}
 
-}(this, document, jQuery));
+}));
