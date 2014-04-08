@@ -88,7 +88,7 @@
 
 		$(function() {
 			// Look for forms
-			$(document).delegate('form', 'submit.placeholder', function() {
+			$(document).delegate('submit.placeholder','form', function() {
 				// Clear the placeholder values so they don't get submitted
 				var $inputs = $('.placeholder', this).each(clearPlaceholder);
 				setTimeout(function() {
