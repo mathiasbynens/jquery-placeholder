@@ -121,18 +121,22 @@
 	function clearPlaceholder(event, value) {
 		var input = this;
 		var $input = $(input);
+		var $replacement;
+
 		if (input.value == $input.attr('placeholder') && $input.hasClass('placeholder')) {
+			input.value = '';
+			$input.removeClass('placeholder');
+			input == document.activeElement && input.select();
+
 			if ($input.data('placeholder-password')) {
-				$input = $input.hide().next().show().attr('id', $input.removeAttr('id').data('placeholder-id'));
-				// If `clearPlaceholder` was called from `$.valHooks.input.set`
+				$replacement = $('<input>').attr($.extend(args(this), { 'type': 'password' }));
+				$replacement.bind('blur.placeholder', setPlaceholder);
+				$input.replaceWith($replacement);
+
 				if (event === true) {
-					return $input[0].value = value;
+					return $replacement[0].value = value;
 				}
-				$input.focus();
-			} else {
-				input.value = '';
-				$input.removeClass('placeholder');
-				input == safeActiveElement() && input.select();
+				$replacement.focus();
 			}
 		}
 	}
@@ -141,31 +145,14 @@
 		var $replacement;
 		var input = this;
 		var $input = $(input);
-		var id = this.id;
+		
 		if (input.value == '') {
 			if (input.type == 'password') {
-				if (!$input.data('placeholder-textinput')) {
-					try {
-						$replacement = $input.clone().attr({ 'type': 'text' });
-					} catch(e) {
-						$replacement = $('<input>').attr($.extend(args(this), { 'type': 'text' }));
-					}
-					$replacement
-						.removeAttr('name')
-						.data({
-							'placeholder-password': $input,
-							'placeholder-id': id
-						})
-						.bind('focus.placeholder', clearPlaceholder);
-					$input
-						.data({
-							'placeholder-textinput': $replacement,
-							'placeholder-id': id
-						})
-						.before($replacement);
-				}
-				$input = $input.removeAttr('id').hide().prev().attr('id', id).show();
-				// Note: `$input[0] != input` now!
+				$replacement = $('<input>').attr($.extend(args(this), { 'type': 'text' }));
+				$replacement.data('placeholder-password', $input);
+				$replacement.bind('focus.placeholder', clearPlaceholder);
+				$input.replaceWith($replacement);
+				$input = $replacement;
 			}
 			$input.addClass('placeholder');
 			$input[0].value = $input.attr('placeholder');
