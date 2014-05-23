@@ -10,6 +10,10 @@
 	var propHooks = $.propHooks;
 	var hooks;
 	var placeholder;
+	var events = {
+		'clear': 'focus.placeholder',
+		'set'  : 'blur.placeholder'
+	};
 
 	if (isInputSupported && isTextareaSupported) {
 
@@ -26,12 +30,12 @@
 			$this
 				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
 				.not('.placeholder')
-				.bind({
-					'focus.placeholder': clearPlaceholder,
-					'blur.placeholder': setPlaceholder
-				})
-				.data('placeholder-enabled', true)
-				.trigger('blur.placeholder');
+				.on(events.clear, clearPlaceholder)
+				.on(events.set, setPlaceholder)
+				.data('placeholder-enabled', true);
+
+			$this.each(setPlaceholder);
+
 			return $this;
 		};
 
@@ -156,7 +160,7 @@
 							'placeholder-password': $input,
 							'placeholder-id': id
 						})
-						.bind('focus.placeholder', clearPlaceholder);
+						.on(events.clear, clearPlaceholder);
 					$input
 						.data({
 							'placeholder-textinput': $replacement,
