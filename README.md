@@ -47,6 +47,12 @@ You can install jquery-placeholder by using [Bower](http://bower.io).
 bower install jquery-placeholder
 ```
 
+## Options
+
+| Option          | Default | Description |
+|-----------------|---------|-------------|
+| preserveOnFocus | `false` | When set to `true` placeholder text will be cleared on `keydown` instead of `focus`. |
+
 ## Notes
 
 * Requires jQuery 1.6+. For an older version of this plugin that works under jQuery 1.4.2+, see [v1.8.7](https://github.com/mathiasbynens/jquery-placeholder/tree/v1.8.7).
