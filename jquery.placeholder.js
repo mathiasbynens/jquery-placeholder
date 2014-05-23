@@ -25,8 +25,13 @@
 
 	} else {
 
-		placeholder = prototype.placeholder = function() {
+		placeholder = prototype.placeholder = function(options) {
 			var $this = this;
+
+			if (options.preserveOnFocus) {
+				// update events to match preferences
+				events.clear = 'keydown.placeholder';
+			}
 			$this
 				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
 				.not('.placeholder')
@@ -146,7 +151,7 @@
 		var input = this;
 		var $input = $(input);
 		var id = this.id;
-		if (input.value == '') {
+		if (input.value == '' || (input.value == $input.attr('placeholder') && $input.hasClass('placeholder'))) {
 			if (input.type == 'password') {
 				if (!$input.data('placeholder-textinput')) {
 					try {
