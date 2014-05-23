@@ -34,6 +34,7 @@
 			if (settings.preserveOnFocus) {
 				// update events to match preferences
 				events.clear = 'keydown.placeholder';
+				events.set = 'keyup.placeholder blur.placeholder';
 
 				// handle cursor placement on focus and click
 				$this.on('focus.placeholder click.placeholder', positionCaret);
@@ -44,9 +45,8 @@
 				.not('.placeholder')
 				.on(events.clear, clearPlaceholder)
 				.on(events.set, setPlaceholder)
-				.data('placeholder-enabled', true);
-
-			$this.each(setPlaceholder);
+				.data('placeholder-enabled', true)
+				.each(setPlaceholder);
 
 			return $this;
 		};
@@ -158,6 +158,8 @@
 		var input = this;
 		var $input = $(input);
 		var id = this.id;
+		var hasFocus = $input.is(':focus');
+
 		if (input.value == '' || (input.value == $input.attr('placeholder') && $input.hasClass('placeholder'))) {
 			if (input.type == 'password') {
 				if (!$input.data('placeholder-textinput')) {
@@ -189,6 +191,11 @@
 			}
 			$input.addClass('placeholder');
 			$input[0].value = $input.attr('placeholder');
+
+			// if the original input had focus, return focus
+			if (settings.preserveOnFocus && hasFocus) {
+				positionCaret.call($input[0]);
+			}
 		} else {
 			$input.removeClass('placeholder');
 		}
