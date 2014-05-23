@@ -10,6 +10,7 @@
 	var propHooks = $.propHooks;
 	var hooks;
 	var placeholder;
+	var settings = {};
 	var events = {
 		'clear': 'focus.placeholder',
 		'set'  : 'blur.placeholder'
@@ -28,10 +29,16 @@
 		placeholder = prototype.placeholder = function(options) {
 			var $this = this;
 
-			if (options.preserveOnFocus) {
+			settings = $.extend(settings, options);
+
+			if (settings.preserveOnFocus) {
 				// update events to match preferences
 				events.clear = 'keydown.placeholder';
+
+				// handle cursor placement on focus and click
+				$this.on('focus.placeholder click.placeholder', positionCaret);
 			}
+
 			$this
 				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
 				.not('.placeholder')
@@ -166,6 +173,10 @@
 							'placeholder-id': id
 						})
 						.on(events.clear, clearPlaceholder);
+
+					if (settings.preserveOnFocus) {
+						$replacement.on('focus.placeholder click.placeholder', positionCaret);
+					}
 					$input
 						.data({
 							'placeholder-textinput': $replacement,
@@ -180,6 +191,23 @@
 			$input[0].value = $input.attr('placeholder');
 		} else {
 			$input.removeClass('placeholder');
+		}
+	}
+
+	function positionCaret() {
+		var input = this,
+			$input = $(input);
+
+		// if input is empty, position caret at the beginning
+		// otherwise let the browser select all input text
+		if (input.value == '' || (input.value == $input.attr('placeholder') && $input.hasClass('placeholder'))) {
+			if (input.setSelectionRange) {
+				input.setSelectionRange(0, 0);
+			} else if (input.createTextRange) {
+				range = input.createTextRange();
+				range.move('character', 0);
+				range.select();
+			}
 		}
 	}
 
