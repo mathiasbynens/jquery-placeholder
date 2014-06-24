@@ -178,7 +178,7 @@
 		// Avoid IE9 `document.activeElement` of death
 		// https://github.com/mathiasbynens/jquery-placeholder/pull/99
 		try {
-			return document.activeElement;
+			return document.documentElement.activeElement;
 		} catch (exception) {}
 	}
 
