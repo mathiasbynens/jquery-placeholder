@@ -1,5 +1,15 @@
 {
-	"name": "jquery-placeholder",
-	"version": "2.0.8",
-	"main": ["jquery.placeholder.js"]
+  "name": "jquery-placeholder",
+  "version": "2.0.8",
+  "main": "./jquery.placeholder.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "tests",
+    "demo.html"
+  ],
+  "dependencies": {
+    "jquery": ">= 1.6.0"
+  }
 }
