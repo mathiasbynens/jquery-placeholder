@@ -123,7 +123,7 @@
 		var $input = $(input);
 		if (input.value == $input.attr('placeholder') && $input.hasClass('placeholder')) {
 			if ($input.data('placeholder-password')) {
-				$input = $input.hide().next().show().attr('id', $input.removeAttr('id').data('placeholder-id'));
+				$input = $input.hide().nextAll('input[type="password"]:first').show().attr('id', $input.removeAttr('id').data('placeholder-id'));
 				// If `clearPlaceholder` was called from `$.valHooks.input.set`
 				if (event === true) {
 					return $input[0].value = value;
@@ -164,7 +164,7 @@
 						})
 						.before($replacement);
 				}
-				$input = $input.removeAttr('id').hide().prev().attr('id', id).show();
+				$input = $input.removeAttr('id').hide().prevAll('input[type="text"]:first').attr('id', id).show();
 				// Note: `$input[0] != input` now!
 			}
 			$input.addClass('placeholder');
