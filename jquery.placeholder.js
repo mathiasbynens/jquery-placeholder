@@ -76,16 +76,19 @@
 				return $element;
 			}
 		};
-
-		if (!isInputSupported) {
-			valHooks.input = hooks;
-			propHooks.value = hooks;
+		
+		if(typeof valHooks != 'undefined' && typeof propHooks != 'undefined'){
+			if (!isInputSupported){
+				console.log(valHooks);
+				valHooks.input = hooks;
+				propHooks.value = hooks;
+			}
+			if (!isTextareaSupported) {
+				valHooks.textarea = hooks;
+				propHooks.value = hooks;
+			}
 		}
-		if (!isTextareaSupported) {
-			valHooks.textarea = hooks;
-			propHooks.value = hooks;
-		}
-
+		
 		$(function() {
 			// Look for forms
 			$(document).delegate('form', 'submit.placeholder', function() {
