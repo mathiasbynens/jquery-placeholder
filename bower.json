@@ -1,7 +1,15 @@
 {
 	"name": "jquery-placeholder",
+	"description": "A jQuery plugin that enables HTML5 placeholder behavior for browsers that aren’t trying hard enough yet",
 	"version": "2.0.8",
+	"license": "MIT",
 	"main": ["jquery.placeholder.js"],
+	"keywords": [
+		"form",
+		"placeholder",
+		"jQuery",
+		"jquery-plugin"		
+	],
 	"ignore": [
 		"*",
 		"!/bower.json",
