@@ -8,8 +8,11 @@
 		"form",
 		"placeholder",
 		"jQuery",
-		"jquery-plugin"		
+		"jquery-plugin"
 	],
+	"dependencies": {
+		"jquery": ">=1.6"
+	},
 	"ignore": [
 		"*",
 		"!/bower.json",
