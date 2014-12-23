@@ -2,7 +2,7 @@
 
 ## Demo & Examples
 
-[http://mathiasbynens.be/demo/placeholder](http://mathiasbynens.be/demo/placeholder)
+http://mathiasbynens.github.io/jquery-placeholder
 
 ## Example Usage
 
