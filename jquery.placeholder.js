@@ -28,11 +28,17 @@
 
 	} else {
 
-		placeholder = $.fn.placeholder = function() {
+		var settings = {};
+
+		placeholder = $.fn.placeholder = function(options) {
+
+			var defaults = {customClass: 'placeholder'};
+			settings = $.extend({}, defaults, options);
+
 			var $this = this;
 			$this
 				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
-				.not('.placeholder')
+				.not('.'+settings.customClass)
 				.bind({
 					'focus.placeholder': clearPlaceholder,
 					'blur.placeholder': setPlaceholder
@@ -74,7 +80,7 @@
 						// We can't use `triggerHandler` here because of dummy text/password inputs :(
 						setPlaceholder.call(element);
 					}
-				} else if ($element.hasClass('placeholder')) {
+				} else if ($element.hasClass(settings.customClass)) {
 					clearPlaceholder.call(element, true, value) || (element.value = value);
 				} else {
 					element.value = value;
@@ -97,7 +103,7 @@
 			// Look for forms
 			$(document).delegate('form', 'submit.placeholder', function() {
 				// Clear the placeholder values so they don't get submitted
-				var $inputs = $('.placeholder', this).each(clearPlaceholder);
+				var $inputs = $('.'+settings.customClass, this).each(clearPlaceholder);
 				setTimeout(function() {
 					$inputs.each(setPlaceholder);
 				}, 10);
@@ -106,7 +112,7 @@
 
 		// Clear placeholder values upon page reload
 		$(window).bind('beforeunload.placeholder', function() {
-			$('.placeholder').each(function() {
+			$('.'+settings.customClass).each(function() {
 				this.value = '';
 			});
 		});
@@ -128,7 +134,7 @@
 	function clearPlaceholder(event, value) {
 		var input = this;
 		var $input = $(input);
-		if (input.value == $input.attr('placeholder') && $input.hasClass('placeholder')) {
+		if (input.value == $input.attr('placeholder') && $input.hasClass(settings.customClass)) {
 			if ($input.data('placeholder-password')) {
 				$input = $input.hide().nextAll('input[type="password"]:first').show().attr('id', $input.removeAttr('id').data('placeholder-id'));
 				// If `clearPlaceholder` was called from `$.valHooks.input.set`
@@ -138,7 +144,7 @@
 				$input.focus();
 			} else {
 				input.value = '';
-				$input.removeClass('placeholder');
+				$input.removeClass(settings.customClass);
 				input == safeActiveElement() && input.select();
 			}
 		}
@@ -174,10 +180,10 @@
 				$input = $input.removeAttr('id').hide().prevAll('input[type="text"]:first').attr('id', id).show();
 				// Note: `$input[0] != input` now!
 			}
-			$input.addClass('placeholder');
+			$input.addClass(settings.customClass);
 			$input[0].value = $input.attr('placeholder');
 		} else {
-			$input.removeClass('placeholder');
+			$input.removeClass(settings.customClass);
 		}
 	}
 
