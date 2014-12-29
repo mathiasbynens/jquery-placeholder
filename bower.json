@@ -16,6 +16,8 @@
 	"ignore": [
 		"*",
 		"!/bower.json",
-		"!/jquery.placeholder.js"
+		"!/jquery.placeholder.js",
+		"!/jquery.placeholder.min.js",
+		"!/jquery.placeholder.min.js.map"
 	]
 }
