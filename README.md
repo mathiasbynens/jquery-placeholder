@@ -2,7 +2,7 @@
 
 ## Demo & Examples
 
-[http://mathiasbynens.be/demo/placeholder](http://mathiasbynens.be/demo/placeholder)
+http://mathiasbynens.github.io/jquery-placeholder
 
 ## Example Usage
 
@@ -26,6 +26,11 @@ Use the plugin as follows:
 $('input, textarea').placeholder();
 ```
 
+By default, `.placeholder` css class will be added. You can override default by passing the `customClass` option:
+```js
+$('input, textarea').placeholder({customClass: 'my-placeholder'});
+```
+
 You’ll still be able to use `jQuery#val()` to get and set the input values. If the element is currently showing a placeholder, `.val()` will return an empty string instead of the placeholder text, just like it does in browsers with a native `@placeholder` implementation. Calling `.val('')` to set an element’s value to the empty string will result in the placeholder text (re)appearing.
 
 ### CSS
@@ -47,11 +52,11 @@ You can install jquery-placeholder by using [Bower](http://bower.io).
 bower install jquery-placeholder
 ```
 
-## Options
+Contributors should install the »dev dependencies« after forking and cloning via [npm](https://www.npmjs.com/).
 
-| Option          | Default | Description |
-|-----------------|---------|-------------|
-| preserveOnFocus | `false` | When set to `true` placeholder text will be cleared on `keydown` instead of `focus`. |
+```bash
+npm install
+```
 
 ## Notes
 
