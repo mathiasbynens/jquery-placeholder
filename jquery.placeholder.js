@@ -19,8 +19,9 @@
 	var placeholder;
 	var settings = {};
 	var events = {
-		'clear': 'focus.placeholder',
-		'set'  : 'blur.placeholder'
+		'clear': 'keydown.placeholder',
+		'set'  : 'keyup.placeholder blur.placeholder',
+		'focus': 'focus.placeholder click.placeholder'
 	};
 
 	if (isInputSupported && isTextareaSupported) {
@@ -44,20 +45,12 @@
 
 			settings = $.extend(settings, options);
 
-			if (settings.preserveOnFocus) {
-				// update events to match preferences
-				events.clear = 'keydown.placeholder';
-				events.set = 'keyup.placeholder blur.placeholder';
-
-				// handle cursor placement on focus and click
-				$this.on('focus.placeholder click.placeholder', positionCaret);
-			}
-
 			$this
 				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
 				.not('.'+settings.customClass)
 				.on(events.clear, clearPlaceholder)
 				.on(events.set, setPlaceholder)
+				.on(events.focus, positionCaret);
 				.data('placeholder-enabled', true)
 				.each(setPlaceholder);
 
@@ -171,7 +164,6 @@
 		var input = this;
 		var $input = $(input);
 		var id = this.id;
-		var hasFocus = $input.is(':focus');
 
 		if (input.value === '' || (input.value == $input.attr('placeholder') && $input.hasClass('placeholder'))) {
 			if (input.type === 'password') {
@@ -187,11 +179,9 @@
 							'placeholder-password': $input,
 							'placeholder-id': id
 						})
-						.on(events.clear, clearPlaceholder);
+						.on(events.clear, clearPlaceholder)
+						.on(events.focus, positionCaret);
 
-					if (settings.preserveOnFocus) {
-						$replacement.on('focus.placeholder click.placeholder', positionCaret);
-					}
 					$input
 						.data({
 							'placeholder-textinput': $replacement,
@@ -206,7 +196,7 @@
 			$input[0].value = $input.attr('placeholder');
 
 			// if the original input had focus, return focus
-			if (settings.preserveOnFocus && hasFocus) {
+			if ($input.is(':focus')) {
 				positionCaret.call($input[0]);
 			}
 		} else {
