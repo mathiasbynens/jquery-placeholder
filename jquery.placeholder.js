@@ -17,7 +17,6 @@
 	var propHooks = $.propHooks;
 	var hooks;
 	var placeholder;
-	var settings = {};
 	var events = {
 		'clear': 'keydown.placeholder',
 		'set'  : 'keyup.placeholder blur.placeholder',
@@ -42,8 +41,6 @@
 			settings = $.extend({}, defaults, options);
 
 			var $this = this;
-
-			settings = $.extend(settings, options);
 
 			$this
 				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
