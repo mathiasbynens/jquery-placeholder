@@ -66,7 +66,7 @@
 					return $passwordInput[0].value;
 				}
 
-				return $element.data('placeholder-enabled') && $element.hasClass('placeholder') ? '' : element.value;
+				return $element.data('placeholder-enabled') && $element.hasClass(settings.customClass) ? '' : element.value;
 			},
 			'set': function(element, value) {
 				var $element = $(element);
@@ -162,7 +162,7 @@
 		var $input = $(input);
 		var id = this.id;
 
-		if (input.value === '' || (input.value == $input.attr('placeholder') && $input.hasClass('placeholder'))) {
+		if (input.value === '' || (input.value == $input.attr('placeholder') && $input.hasClass(settings.customClass))) {
 			if (input.type === 'password') {
 				if (!$input.data('placeholder-textinput')) {
 					try {
@@ -207,7 +207,7 @@
 
 		// if input is empty, position caret at the beginning
 		// otherwise let the browser select all input text
-		if (input.value == '' || (input.value == $input.attr('placeholder') && $input.hasClass('placeholder'))) {
+		if (input.value == '' || (input.value == $input.attr('placeholder') && $input.hasClass(settings.customClass))) {
 			if (input.setSelectionRange) {
 				input.setSelectionRange(0, 0);
 			} else if (input.createTextRange) {
