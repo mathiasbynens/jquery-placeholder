@@ -9,7 +9,7 @@
 			label code { cursor: pointer; float: left; width: 150px; }
 			input { width: 14em; }
 			textarea { height: 5em; width: 20em; }
-			.placeholder { color: #aaa; }
+			.my-placeholder { color: #aaa; }
 			.note { border: 1px solid orange; padding: 1em; background: #ffffe0; }
 			/* #p { background: lime; } */
 		</style>
@@ -37,7 +37,7 @@
 			// Then uncomment the last rule in the <style> element (in the <head>).
 			$(function() {
 				// Invoke the plugin
-				$('input, textarea').placeholder();
+				$('input, textarea').placeholder({customClass:'my-placeholder'});
 				// That’s it, really.
 				// Now display a message if the browser supports placeholder natively
 				var html;
