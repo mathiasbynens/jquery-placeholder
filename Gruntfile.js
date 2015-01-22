@@ -21,7 +21,7 @@ module.exports = function(grunt) {
 					drop_debugger: true
 				},
 				banner: '/* <%= pkg.title %> - v<%= pkg.version %>\n' +
-						' * Copyright ©<%= grunt.template.today("yyyy") %> Mathias Bynens\n' +
+						' * Copyright (c)<%= grunt.template.today("yyyy") %> Mathias Bynens\n' +
 						' * <%= grunt.template.today("yyyy-mm-dd") %>\n' +
 						' */'
 			},
