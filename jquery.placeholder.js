@@ -47,7 +47,7 @@
 				.not('.'+settings.customClass)
 				.on(events.clear, clearPlaceholder)
 				.on(events.set, setPlaceholder)
-				.on(events.focus, positionCaret);
+				.on(events.focus, positionCaret)
 				.data('placeholder-enabled', true)
 				.each(setPlaceholder);
 
