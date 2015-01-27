@@ -60,7 +60,7 @@
 					return $passwordInput[0].value;
 				}
 
-				return $element.data('placeholder-enabled') && $element.hasClass('placeholder') ? '' : element.value;
+				return $element.data('placeholder-enabled') && $element.hasClass(settings.customClass) ? '' : element.value;
 			},
 			'set': function(element, value) {
 				var $element = $(element);
