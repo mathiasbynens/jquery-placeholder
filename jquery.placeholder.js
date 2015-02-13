@@ -41,13 +41,12 @@
 			settings = $.extend({}, defaults, options);
 
 			var $this = this;
-
 			$this
 				.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
 				.not('.'+settings.customClass)
-				.on(events.clear, clearPlaceholder)
-				.on(events.set, setPlaceholder)
-				.on(events.focus, positionCaret)
+				.bind(events.clear, clearPlaceholder)
+				.bind(events.set, setPlaceholder)
+				.bind(events.focus, positionCaret)
 				.data('placeholder-enabled', true)
 				.each(setPlaceholder);
 
@@ -176,8 +175,8 @@
 							'placeholder-password': $input,
 							'placeholder-id': id
 						})
-						.on(events.clear, clearPlaceholder)
-						.on(events.focus, positionCaret);
+						.bind(events.clear, clearPlaceholder)
+						.bind(events.focus, positionCaret);
 
 					$input
 						.data({
