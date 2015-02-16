@@ -25,7 +25,7 @@
     "jQuery",
     "jquery-plugin"
   ],
-  "dependencies": {
+  "peerDependencies": {
     "jquery": "*"
   },
   "devDependencies": {
