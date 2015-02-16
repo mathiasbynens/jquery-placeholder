@@ -1,7 +1,6 @@
 {
   "name": "jquery-placeholder",
   "version": "2.1.0",
-  "title": "HTML5 Placeholder jQuery Plugin",
   "description": "A jQuery plugin that enables HTML5 placeholder behavior for browsers that aren’t trying hard enough yet",
   "author": {
     "name": "Mathias Bynens",
@@ -20,16 +19,15 @@
   "directories": {
     "test": "tests"
   },
-  "private": true,
-  "scripts": {
-    "postinstall": "bower install"
-  },
   "keywords": [
     "form",
     "placeholder",
     "jQuery",
     "jquery-plugin"
   ],
+  "dependencies": {
+    "jquery": "*"
+  },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-uglify": "^0.7.0",
