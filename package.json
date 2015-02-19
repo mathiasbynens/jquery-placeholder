@@ -20,10 +20,6 @@
   "directories": {
     "test": "tests"
   },
-  "private": true,
-  "scripts": {
-    "postinstall": "bower install"
-  },
   "keywords": [
     "form",
     "placeholder",
