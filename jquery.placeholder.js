@@ -159,7 +159,11 @@
 			if (input.type === 'password') {
 				if (!$input.data('placeholder-textinput')) {
 					try {
-						$replacement = $input.clone().attr({ 'type': 'text' });
+						$replacement = $('<input>');
+						$attributes = args($input[0]);
+						$.each($attributes, function (index, value) {
+							$replacement.attr(index, index != "type" ? value : "text");
+						});
 					} catch(e) {
 						$replacement = $('<input>').attr($.extend(args(this), { 'type': 'text' }));
 					}
