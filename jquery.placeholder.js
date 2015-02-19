@@ -3,7 +3,7 @@
 	if (typeof define === 'function' && define.amd) {
 		// AMD
 		define(['jquery'], factory);
-	} else if (typeof module === 'object' && exports) {
+	} else if (typeof module === 'object' && module.exports) {
 		factory(require('jquery'));
 	} else {
 		// Browser globals
