@@ -52,6 +52,12 @@ You can install jquery-placeholder by using [Bower](http://bower.io).
 bower install jquery-placeholder
 ```
 
+Or you can install it through [npm](http://npmjs.org/):
+
+```
+npm install --save jquery-placeholder
+```
+
 Contributors should install the »dev dependencies« after forking and cloning via [npm](https://www.npmjs.com/).
 
 ```bash
