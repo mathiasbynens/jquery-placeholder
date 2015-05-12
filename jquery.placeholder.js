@@ -102,14 +102,18 @@
         }
 
         $(function() {
-            // Look for forms
-            $(document).delegate('form', 'submit.placeholder', function() {
-                // Clear the placeholder values so they don't get submitted
-                var $inputs = $('.'+settings.customClass, this).each(clearPlaceholder);
-                setTimeout(function() {
-                    $inputs.each(setPlaceholder);
-                }, 10);
-            });
+			var handler = function () {
+				// Clear the placeholder values so they don't get submitted
+				// 'clearInner do only clearing placeholder but not focusing or selecting input'
+				var $inputs = $('.' + settings.customClass, this).each(clearInner);
+				setTimeout(function () {
+					$inputs.each(setPlaceholder);
+				}, 10);
+
+			};
+			// Look for forms
+			// Clear the placeholder when form get submitted and reset
+			$(document).delegate('form', 'submit.placeholder', handler).delegate('form', 'reset.placeholder', handler);
         });
 
         // Clear placeholder values upon page reload
@@ -134,28 +138,44 @@
     }
 
     function clearPlaceholder(event, value) {
+		return clearInner.call(this, event, value, function(input, isPassword){
+			if (isPassword) {
+				input.focus();
+			} else {
+				input == safeActiveElement() && input.select();
+			}
+		})
+    }
+    
+    function clearInner(event, value, afterclear) {
+		afterclear = afterclear || $.noop;
         var input = this;
         var $input = $(input);
         if (input.value == $input.attr('placeholder') && $input.hasClass(settings.customClass)) {
-            if ($input.data('placeholder-password')) {
+			var isPassword = $input.data('placeholder-password');
+            if (isPassword) {
                 $input = $input.hide().nextAll('input[type="password"]:first').show().attr('id', $input.removeAttr('id').data('placeholder-id'));
                 // If `clearPlaceholder` was called from `$.valHooks.input.set`
                 if (event === true) {
                     return $input[0].value = value;
                 }
-                $input.focus();
+				afterclear($input[0], isPassword)
+
             } else {
                 input.value = '';
                 $input.removeClass(settings.customClass);
-                input == safeActiveElement() && input.select();
+				afterclear($input[0], isPassword)
+
             }
         }
-    }
+    }    
 
     function setPlaceholder() {
         var $replacement;
-        var input = this;
-        var $input = $(input);
+        var $input = $(this);
+        // After submit, `setPlaceholder` will call again with context placeholder element, but not input. 
+		$input = $input.data('placeholder-password') || $input
+        var input = $input[0];
         var id = this.id;
         if (input.value === '') {
             if (input.type === 'password') {
