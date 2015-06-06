@@ -138,6 +138,7 @@
         var $input = $(input);
         if (input.value == $input.attr('placeholder') && $input.hasClass(settings.customClass)) {
             if ($input.data('placeholder-password')) {
+
                 $input = $input.hide().nextAll('input[type="password"]:first').show().attr('id', $input.removeAttr('id').data('placeholder-id'));
                 // If `clearPlaceholder` was called from `$.valHooks.input.set`
                 if (event === true) {
@@ -152,11 +153,25 @@
         }
     }
 
-    function setPlaceholder() {
+    function setPlaceholder(event) {
         var $replacement;
         var input = this;
         var $input = $(input);
         var id = this.id;
+
+        // If the placeholder is activated, triggering blur event (`$input.trigger('blur')`) should do nothing.
+        if (event && event.type === 'blur') {
+            if ($input.hasClass(settings.customClass)) {
+                return;
+            }
+            if (input.type === 'password') {
+                $replacement = $input.prevAll('input[type="text"]:first');
+                if ($replacement.length > 0 && $replacement.is(':visible')) {
+                    return;
+                }
+            }
+        }
+
         if (input.value === '') {
             if (input.type === 'password') {
                 if (!$input.data('placeholder-textinput')) {
