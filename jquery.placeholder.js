@@ -67,14 +67,23 @@
             'set': function(element, value) {
                 var $element = $(element);
 
-                var $passwordInput = $element.data('placeholder-password');
-                if ($passwordInput) {
-                    return $passwordInput[0].value = value;
+                var $replacement = $element.data('placeholder-textinput');
+
+                if (value !== '') {
+                    if ($replacement) {
+                        clearPlaceholder.call($replacement[0], true, value);
+                        $replacement[0].value = value;
+                    } else if ($element.data('placeholder-password')) {
+                        clearPlaceholder.call(element, true, value);
+                        element.value = value;
+                    }
                 }
 
                 if (!$element.data('placeholder-enabled')) {
-                    return element.value = value;
+                    element.value = value;
+                    return $element;
                 }
+
                 if (value === '') {
                     element.value = value;
                     // Issue #56: Setting the placeholder causes problems if the element continues to have focus.
@@ -82,9 +91,10 @@
                         // We can't use `triggerHandler` here because of dummy text/password inputs :(
                         setPlaceholder.call(element);
                     }
-                } else if ($element.hasClass(settings.customClass)) {
-                    clearPlaceholder.call(element, true, value) || (element.value = value);
                 } else {
+                    if ($element.hasClass(settings.customClass)) {
+                        clearPlaceholder.call(element);
+                    }
                     element.value = value;
                 }
                 // `set` can not return `undefined`; see http://jsapi.info/jquery/1.7.1/val#L2363
@@ -105,7 +115,9 @@
             // Look for forms
             $(document).delegate('form', 'submit.placeholder', function() {
                 // Clear the placeholder values so they don't get submitted
-                var $inputs = $('.'+settings.customClass, this).each(clearPlaceholder);
+                var $inputs = $('.'+settings.customClass, this).each(function() {
+                    clearPlaceholder.call(this, true, '');
+                });
                 setTimeout(function() {
                     $inputs.each(setPlaceholder);
                 }, 10);
@@ -137,6 +149,9 @@
         var input = this;
         var $input = $(input);
         if (input.value == $input.attr('placeholder') && $input.hasClass(settings.customClass)) {
+            input.value = '';
+            $input.removeClass(settings.customClass);
+
             if ($input.data('placeholder-password')) {
 
                 $input = $input.hide().nextAll('input[type="password"]:first').show().attr('id', $input.removeAttr('id').data('placeholder-id'));
@@ -146,8 +161,6 @@
                 }
                 $input.focus();
             } else {
-                input.value = '';
-                $input.removeClass(settings.customClass);
                 input == safeActiveElement() && input.select();
             }
         }
@@ -183,6 +196,7 @@
                     $replacement
                         .removeAttr('name')
                         .data({
+                            'placeholder-enabled': true,
                             'placeholder-password': $input,
                             'placeholder-id': id
                         })
@@ -196,9 +210,15 @@
                 }
                 $input = $input.removeAttr('id').hide().prevAll('input[type="text"]:first').attr('id', id).show();
                 // Note: `$input[0] != input` now!
+            } else {
+                var $passwordInput = $input.data('placeholder-password');
+                if ($passwordInput) {
+                    $input.attr('id', $passwordInput[0].id).show().nextAll('input[type="password"]:last').hide().removeAttr('id');
+                }
             }
             $input.addClass(settings.customClass);
             $input[0].value = $input.attr('placeholder');
+
         } else {
             $input.removeClass(settings.customClass);
         }
