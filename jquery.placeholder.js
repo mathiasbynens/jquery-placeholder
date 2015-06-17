@@ -19,6 +19,7 @@
     var propHooks = $.propHooks;
     var hooks;
     var placeholder;
+    var settings = {};
 
     if (isInputSupported && isTextareaSupported) {
 
@@ -26,11 +27,10 @@
             return this;
         };
 
-        placeholder.input = placeholder.textarea = true;
+        placeholder.input = true;
+        placeholder.textarea = true;
 
     } else {
-
-        var settings = {};
 
         placeholder = $.fn.placeholder = function(options) {
 
@@ -38,8 +38,8 @@
             settings = $.extend({}, defaults, options);
 
             var $this = this;
-            $this
-                .filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
+
+            $this.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
                 .not('.'+settings.customClass)
                 .bind({
                     'focus.placeholder': clearPlaceholder,
@@ -47,6 +47,7 @@
                 })
                 .data('placeholder-enabled', true)
                 .trigger('blur.placeholder');
+
             return $this;
         };
 
@@ -55,9 +56,10 @@
 
         hooks = {
             'get': function(element) {
-                var $element = $(element);
 
+                var $element = $(element);
                 var $passwordInput = $element.data('placeholder-password');
+
                 if ($passwordInput) {
                     return $passwordInput[0].value;
                 }
@@ -66,8 +68,8 @@
             },
             'set': function(element, value) {
                 var $element = $(element);
-
                 var $passwordInput = $element.data('placeholder-password');
+
                 if ($passwordInput) {
                     return $passwordInput[0].value = value;
                 }
@@ -75,6 +77,7 @@
                 if (!$element.data('placeholder-enabled')) {
                     return element.value = value;
                 }
+
                 if (value === '') {
                     element.value = value;
                     // Issue #56: Setting the placeholder causes problems if the element continues to have focus.
@@ -96,6 +99,7 @@
             valHooks.input = hooks;
             propHooks.value = hooks;
         }
+
         if (!isTextareaSupported) {
             valHooks.textarea = hooks;
             propHooks.value = hooks;
@@ -118,18 +122,19 @@
                 this.value = '';
             });
         });
-
     }
 
     function args(elem) {
         // Return an object of element attributes
         var newAttrs = {};
         var rinlinejQuery = /^jQuery\d+$/;
+
         $.each(elem.attributes, function(i, attr) {
             if (attr.specified && !rinlinejQuery.test(attr.name)) {
                 newAttrs[attr.name] = attr.value;
             }
         });
+
         return newAttrs;
     }
 
@@ -160,11 +165,13 @@
         if (input.value === '') {
             if (input.type === 'password') {
                 if (!$input.data('placeholder-textinput')) {
+                    
                     try {
                         $replacement = $input.clone().prop({ 'type': 'text' });
                     } catch(e) {
                         $replacement = $('<input>').attr($.extend(args(this), { 'type': 'text' }));
                     }
+
                     $replacement
                         .removeAttr('name')
                         .data({
@@ -172,6 +179,7 @@
                             'placeholder-id': id
                         })
                         .bind('focus.placeholder', clearPlaceholder);
+
                     $input
                         .data({
                             'placeholder-textinput': $replacement,
@@ -179,6 +187,7 @@
                         })
                         .before($replacement);
                 }
+
                 $input = $input.removeAttr('id').hide().prevAll('input[type="text"]:first').attr('id', id).show();
                 // Note: `$input[0] != input` now!
             }
@@ -196,5 +205,4 @@
             return document.activeElement;
         } catch (exception) {}
     }
-
 }));
