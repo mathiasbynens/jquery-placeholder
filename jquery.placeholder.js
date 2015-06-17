@@ -69,14 +69,20 @@
             'set': function(element, value) {
                 var $element = $(element);
 
-                var $replacement = $element.data('placeholder-textinput');
+                var $replacement;
+                var $passwordInput;
 
                 if (value !== '') {
+
+                    $replacement = $element.data('placeholder-textinput');
+                    $passwordInput = $element.data('placeholder-password');
+
                     if ($replacement) {
-                        clearPlaceholder.call($replacement[0], true, value);
+                        clearPlaceholder.call($replacement[0], true, value) || (element.value = value);
                         $replacement[0].value = value;
-                    } else if ($element.data('placeholder-password')) {
-                        clearPlaceholder.call(element, true, value);
+
+                    } else if ($passwordInput) {
+                        clearPlaceholder.call(element, true, value) || ($passwordInput[0].value = value);
                         element.value = value;
                     }
                 }
@@ -216,12 +222,14 @@
                         .before($replacement);
                 }
 
-                $input = $input.removeAttr('id').hide().prevAll('input[type="text"]:first').attr('id', id).show();
+                input.value = '';
+                $input = $input.removeAttr('id').hide().prevAll('input[type="text"]:first').attr('id', $input.data('placeholder-id')).show();
                 // Note: `$input[0] != input` now!
             } else {
                 var $passwordInput = $input.data('placeholder-password');
                 if ($passwordInput) {
-                    $input.attr('id', $passwordInput[0].id).show().nextAll('input[type="password"]:last').hide().removeAttr('id');
+                    $passwordInput[0].value = '';
+                    $input.attr('id', $input.data('placeholder-id')).show().nextAll('input[type="password"]:last').hide().removeAttr('id');
                 }
             }
             $input.addClass(settings.customClass);
