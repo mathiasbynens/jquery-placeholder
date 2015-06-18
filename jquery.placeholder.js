@@ -68,14 +68,28 @@
             },
             'set': function(element, value) {
                 var $element = $(element);
-                var $passwordInput = $element.data('placeholder-password');
 
-                if ($passwordInput) {
-                    return $passwordInput[0].value = value;
+                var $replacement;
+                var $passwordInput;
+
+                if (value !== '') {
+
+                    $replacement = $element.data('placeholder-textinput');
+                    $passwordInput = $element.data('placeholder-password');
+
+                    if ($replacement) {
+                        clearPlaceholder.call($replacement[0], true, value) || (element.value = value);
+                        $replacement[0].value = value;
+
+                    } else if ($passwordInput) {
+                        clearPlaceholder.call(element, true, value) || ($passwordInput[0].value = value);
+                        element.value = value;
+                    }
                 }
 
                 if (!$element.data('placeholder-enabled')) {
-                    return element.value = value;
+                    element.value = value;
+                    return $element;
                 }
 
                 if (value === '') {
@@ -85,9 +99,10 @@
                         // We can't use `triggerHandler` here because of dummy text/password inputs :(
                         setPlaceholder.call(element);
                     }
-                } else if ($element.hasClass(settings.customClass)) {
-                    clearPlaceholder.call(element, true, value) || (element.value = value);
                 } else {
+                    if ($element.hasClass(settings.customClass)) {
+                        clearPlaceholder.call(element);
+                    }
                     element.value = value;
                 }
                 // `set` can not return `undefined`; see http://jsapi.info/jquery/1.7.1/val#L2363
@@ -109,7 +124,9 @@
             // Look for forms
             $(document).delegate('form', 'submit.placeholder', function() {
                 // Clear the placeholder values so they don't get submitted
-                var $inputs = $('.'+settings.customClass, this).each(clearPlaceholder);
+                var $inputs = $('.'+settings.customClass, this).each(function() {
+                    clearPlaceholder.call(this, true, '');
+                });
                 setTimeout(function() {
                     $inputs.each(setPlaceholder);
                 }, 10);
@@ -142,7 +159,11 @@
         var input = this;
         var $input = $(input);
         if (input.value == $input.attr('placeholder') && $input.hasClass(settings.customClass)) {
+            input.value = '';
+            $input.removeClass(settings.customClass);
+
             if ($input.data('placeholder-password')) {
+
                 $input = $input.hide().nextAll('input[type="password"]:first').show().attr('id', $input.removeAttr('id').data('placeholder-id'));
                 // If `clearPlaceholder` was called from `$.valHooks.input.set`
                 if (event === true) {
@@ -150,18 +171,30 @@
                 }
                 $input.focus();
             } else {
-                input.value = '';
-                $input.removeClass(settings.customClass);
                 input == safeActiveElement() && input.select();
             }
         }
     }
 
-    function setPlaceholder() {
+    function setPlaceholder(event) {
         var $replacement;
         var input = this;
         var $input = $(input);
         var id = this.id;
+
+        // If the placeholder is activated, triggering blur event (`$input.trigger('blur')`) should do nothing.
+        if (event && event.type === 'blur') {
+            if ($input.hasClass(settings.customClass)) {
+                return;
+            }
+            if (input.type === 'password') {
+                $replacement = $input.prevAll('input[type="text"]:first');
+                if ($replacement.length > 0 && $replacement.is(':visible')) {
+                    return;
+                }
+            }
+        }
+
         if (input.value === '') {
             if (input.type === 'password') {
                 if (!$input.data('placeholder-textinput')) {
@@ -175,6 +208,7 @@
                     $replacement
                         .removeAttr('name')
                         .data({
+                            'placeholder-enabled': true,
                             'placeholder-password': $input,
                             'placeholder-id': id
                         })
@@ -188,11 +222,19 @@
                         .before($replacement);
                 }
 
-                $input = $input.removeAttr('id').hide().prevAll('input[type="text"]:first').attr('id', id).show();
+                input.value = '';
+                $input = $input.removeAttr('id').hide().prevAll('input[type="text"]:first').attr('id', $input.data('placeholder-id')).show();
                 // Note: `$input[0] != input` now!
+            } else {
+                var $passwordInput = $input.data('placeholder-password');
+                if ($passwordInput) {
+                    $passwordInput[0].value = '';
+                    $input.attr('id', $input.data('placeholder-id')).show().nextAll('input[type="password"]:last').hide().removeAttr('id');
+                }
             }
             $input.addClass(settings.customClass);
             $input[0].value = $input.attr('placeholder');
+
         } else {
             $input.removeClass(settings.customClass);
         }
