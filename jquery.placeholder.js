@@ -67,8 +67,8 @@
                 return $element.data('placeholder-enabled') && $element.hasClass(settings.customClass) ? '' : element.value;
             },
             'set': function(element, value) {
-                var $element = $(element);
 
+                var $element = $(element);
                 var $replacement;
                 var $passwordInput;
 
@@ -93,16 +93,21 @@
                 }
 
                 if (value === '') {
+                    
                     element.value = value;
+                    
                     // Issue #56: Setting the placeholder causes problems if the element continues to have focus.
                     if (element != safeActiveElement()) {
                         // We can't use `triggerHandler` here because of dummy text/password inputs :(
                         setPlaceholder.call(element);
                     }
+
                 } else {
+                    
                     if ($element.hasClass(settings.customClass)) {
                         clearPlaceholder.call(element);
                     }
+
                     element.value = value;
                 }
                 // `set` can not return `undefined`; see http://jsapi.info/jquery/1.7.1/val#L2363
@@ -123,10 +128,12 @@
         $(function() {
             // Look for forms
             $(document).delegate('form', 'submit.placeholder', function() {
+                
                 // Clear the placeholder values so they don't get submitted
                 var $inputs = $('.'+settings.customClass, this).each(function() {
                     clearPlaceholder.call(this, true, '');
                 });
+
                 setTimeout(function() {
                     $inputs.each(setPlaceholder);
                 }, 10);
@@ -156,20 +163,28 @@
     }
 
     function clearPlaceholder(event, value) {
+        
         var input = this;
         var $input = $(input);
+        
         if (input.value == $input.attr('placeholder') && $input.hasClass(settings.customClass)) {
+            
             input.value = '';
             $input.removeClass(settings.customClass);
 
             if ($input.data('placeholder-password')) {
 
                 $input = $input.hide().nextAll('input[type="password"]:first').show().attr('id', $input.removeAttr('id').data('placeholder-id'));
+                
                 // If `clearPlaceholder` was called from `$.valHooks.input.set`
                 if (event === true) {
-                    return $input[0].value = value;
+                    $input[0].value = value;
+
+                    return value;
                 }
+
                 $input.focus();
+
             } else {
                 input == safeActiveElement() && input.select();
             }
@@ -184,9 +199,11 @@
 
         // If the placeholder is activated, triggering blur event (`$input.trigger('blur')`) should do nothing.
         if (event && event.type === 'blur') {
+            
             if ($input.hasClass(settings.customClass)) {
                 return;
             }
+
             if (input.type === 'password') {
                 $replacement = $input.prevAll('input[type="text"]:first');
                 if ($replacement.length > 0 && $replacement.is(':visible')) {
@@ -225,13 +242,17 @@
                 input.value = '';
                 $input = $input.removeAttr('id').hide().prevAll('input[type="text"]:first').attr('id', $input.data('placeholder-id')).show();
                 // Note: `$input[0] != input` now!
+
             } else {
+                
                 var $passwordInput = $input.data('placeholder-password');
+
                 if ($passwordInput) {
                     $passwordInput[0].value = '';
                     $input.attr('id', $input.data('placeholder-id')).show().nextAll('input[type="password"]:last').hide().removeAttr('id');
                 }
             }
+
             $input.addClass(settings.customClass);
             $input[0].value = $input.attr('placeholder');
 
