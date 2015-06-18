@@ -12,7 +12,7 @@
 }(function($) {
 
     // Opera Mini v7 doesn't support placeholder although its DOM seems to indicate so
-    var isOperaMini = Object.prototype.toString.call(window.operamini) == '[object OperaMini]';
+    var isOperaMini = Object.prototype.toString.call(window.operamini) === '[object OperaMini]';
     var isInputSupported = 'placeholder' in document.createElement('input') && !isOperaMini;
     var isTextareaSupported = 'placeholder' in document.createElement('textarea') && !isOperaMini;
     var valHooks = $.valHooks;
@@ -37,9 +37,7 @@
             var defaults = {customClass: 'placeholder'};
             settings = $.extend({}, defaults, options);
 
-            var $this = this;
-
-            $this.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
+            return this.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
                 .not('.'+settings.customClass)
                 .bind({
                     'focus.placeholder': clearPlaceholder,
@@ -47,8 +45,6 @@
                 })
                 .data('placeholder-enabled', true)
                 .trigger('blur.placeholder');
-
-            return $this;
         };
 
         placeholder.input = isInputSupported;
@@ -96,7 +92,7 @@
                     
                     element.value = value;
                     
-                    // Issue #56: Setting the placeholder causes problems if the element continues to have focus.
+                    // Setting the placeholder causes problems if the element continues to have focus.
                     if (element != safeActiveElement()) {
                         // We can't use `triggerHandler` here because of dummy text/password inputs :(
                         setPlaceholder.call(element);
@@ -167,7 +163,7 @@
         var input = this;
         var $input = $(input);
         
-        if (input.value == $input.attr('placeholder') && $input.hasClass(settings.customClass)) {
+        if (input.value === $input.attr('placeholder') && $input.hasClass(settings.customClass)) {
             
             input.value = '';
             $input.removeClass(settings.customClass);
@@ -195,7 +191,7 @@
         var $replacement;
         var input = this;
         var $input = $(input);
-        var id = this.id;
+        var id = input.id;
 
         // If the placeholder is activated, triggering blur event (`$input.trigger('blur')`) should do nothing.
         if (event && event.type === 'blur') {
@@ -241,7 +237,6 @@
 
                 input.value = '';
                 $input = $input.removeAttr('id').hide().prevAll('input[type="text"]:first').attr('id', $input.data('placeholder-id')).show();
-                // Note: `$input[0] != input` now!
 
             } else {
                 
@@ -263,7 +258,6 @@
 
     function safeActiveElement() {
         // Avoid IE9 `document.activeElement` of death
-        // https://github.com/mathiasbynens/jquery-placeholder/pull/99
         try {
             return document.activeElement;
         } catch (exception) {}
