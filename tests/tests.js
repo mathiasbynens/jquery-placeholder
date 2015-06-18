@@ -16,7 +16,7 @@
 		var el = $el[0];
 		var placeholder = el.getAttribute('placeholder');
 
-		strictEqual($el.placeholder(), $el, 'should be chainable');
+		deepEqual($el.placeholder(), $el, 'should be chainable');
 
 		strictEqual(el.value, placeholder, 'should set `placeholder` text as `value`');
 		strictEqual($el.prop('value'), '', 'propHooks works properly');
