@@ -1,4 +1,4 @@
-/*! http://mths.be/placeholder v2.1.2 by @mathias */
+﻿/*! http://mths.be/placeholder v2.1.2 by @mathias */
 (function(factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD
@@ -132,7 +132,7 @@
 
                 setTimeout(function() {
                     $inputs.each(setPlaceholder);
-                }, 10);
+                }, 50);
             });
         });
 
