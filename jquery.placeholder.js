@@ -132,7 +132,7 @@
 
                 setTimeout(function() {
                     $inputs.each(setPlaceholder);
-                }, 50);
+                }, 2000);
             });
         });
 
