@@ -4,30 +4,110 @@
 		<meta charset="utf-8">
 		<title>HTML5 placeholder jQuery Plugin</title>
 		<style>
-			body, input, textarea { font: 1em/1.4 Helvetica, Arial; }
-			label code { cursor: pointer; float: left; width: 150px; }
-			input { width: 14em; }
-			textarea { height: 5em; width: 20em; }
+			body { font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
+			input, textarea { font-size: 1em; }
+			label code { display: inline-block; width: 200px; }
+			textarea { height: 2em; width: 20em;, font-family: sans-serif; }
+			form div { border-bottom: 1px solid #ccc; padding: 5px; }
 			.my-placeholder { color: #aaa; }
-			.note { border: 1px solid orange; padding: 1em; background: #ffffe0; }
-			/* #p { background: lime; } */
+			.note { border: 1px solid orange; font-size: 13px; padding: 1em; background: #ffffe0; }
 		</style>
 	</head>
+
 	<body>
 		<h1>HTML5 Placeholder jQuery Plugin</h1>
-		<p>Check out <a href="https://mths.be/placeholder">the HTML5 Placeholder jQuery Plugin project page on GitHub</a>.</p>
-		<pre><code>$(function() {<br> $('input, textarea').placeholder();<br>});</code></pre>
+
+		<a href="https://github.com/mathiasbynens/jquery-placeholder"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
 		<form>
-			<p><label><code>type=search</code> <input type="search" name="search" placeholder="Search this site…"></label></p>
-			<p><label><code>type=text</code> <input type="text" name="name" placeholder="e.g. John Doe"></label></p>
-			<p><label><code>type=email</code> <input type="email" name="email" placeholder="e.g. address@example.ext"></label></p>
-			<p><label><code>type=url</code> <input type="url" name="url" placeholder="e.g. http://mathiasbynens.be/"></label></p>
-			<p><label><code>type=tel</code> <input type="tel" name="tel" placeholder="e.g. +32 472 77 69 88"></label></p>
-			<p><label for="p"><code>type=password</code> </label><input type="password" name="password" placeholder="e.g. hunter2" id="p"></p>
-			<p><label><code>textarea</code> <textarea name="message" placeholder="Your message goes here"></textarea></label></p>
-			<p><input type="submit" value="type=submit"></p>
+			<div>
+				<label><code>type=radio</code></label> 
+				<input type="radio" name="color" placeholder="This can't be seen"> Red
+				<input type="radio" name="color" placeholder="This can't be seen"> Green
+				<input type="radio" name="color" placeholder="This can't be seen"> Blue
+			</div>
+
+			<div>
+				<label><code>type=checkbox</code></label>
+				<input type="checkbox" name="fruits" placeholder="This can't be seen"> Apple
+				<input type="checkbox" name="fruits" placeholder="This can't be seen"> Banana
+				<input type="checkbox" name="fruits" placeholder="This can't be seen"> Pear
+			</div>
+
+			<div>
+				<label><code>type=hidden</code></label>
+				<input type="hidden" name="hidden" placeholder="This can't be seen">
+			</div>
+
+			<div>
+				<label>
+					<code>type=search</code> 
+					<input type="search" name="search" placeholder="Search this site…">
+				</label>
+			</div>
+			
+			<div>
+				<label>
+					<code>type=text</code> 
+					<input type="text" name="name" placeholder="e.g. John Doe">
+				</label>
+			</div>
+			<div>
+				<label>
+					<code>type=email</code> 
+					<input type="email" name="email" placeholder="e.g. address@example.ext">
+				</label>
+			</div>
+			<div>
+				<label>
+					<code>type=url</code>
+					<input type="url" name="url" placeholder="e.g. http://mathiasbynens.be/">
+				</label>
+			</div>
+			<div>
+				<label>
+					<code>type=tel</code>
+					<input type="tel" name="tel" placeholder="e.g. +32 472 77 69 88">
+				</label>
+			</div>
+			<div>
+				<label for="p">
+					<code>type=password</code> 
+				</label>
+				<input type="password" name="password" placeholder="e.g. hunter2" id="p">
+			</div>
+			<div>
+				<label>
+					<code>textarea</code> 
+					<textarea name="message" placeholder="Your message goes here"></textarea>
+				</label>
+			</div>
+
+			<div>
+				<label>
+					<code>disabled type=text</code> 
+					<input type="text" name="location" disabled="disabled" placeholder="e.g. San Francisco">
+				</label>
+			</div>
+			<div>
+				<label for="c">
+					<code>disabled type=password</code> 
+				</label>
+				<input type="password" name="code" disabled="disabled" placeholder="e.g. pass123" id="c">
+			</div>
+			<div>
+				<label>
+					<code>disabled textarea</code> 
+					<textarea name="comments" disabled="disabled" placeholder="Your comments go here"></textarea>
+				</label>
+			</div>
+
+			<div>
+				<input type="submit" value="type=submit"> 
+				<input type="reset" value="type=reset">
+			</div>
 		</form>
-		<p>— <a href="https://mathiasbynens.be/">Mathias</a></p>
+
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="jquery.placeholder.js"></script>
 		<script>
@@ -38,15 +118,17 @@
 				// Invoke the plugin
 				$('input, textarea').placeholder({customClass:'my-placeholder'});
 				// That’s it, really.
-				// Now display a message if the browser supports placeholder natively
+				
 				var html;
+
 				if ($.fn.placeholder.input && $.fn.placeholder.textarea) {
-					html = '<strong>Your current browser natively supports <code>placeholder</code> for <code>input</code> and <code>textarea</code> elements.</strong> The plugin won’t run in this case, since it’s not needed. If you want to test the plugin, use an older browser ;)';
+					html = '<strong>Your current browser natively supports <code>placeholder</code> for <code>input</code> and <code>textarea</code> elements.</strong> The plugin won’t run in this case, since it’s not needed. If you want to test the plugin, use an older browser.';
 				} else if ($.fn.placeholder.input) {
 					html = '<strong>Your current browser natively supports <code>placeholder</code> for <code>input</code> elements, but not for <code>textarea</code> elements.</strong> The plugin will only do its thang on the <code>textarea</code>s.';
 				}
+
 				if (html) {
-					$('<p class="note">' + html + '</p>').insertAfter('form');
+					$('<p class="note">' + html + '</p>').insertBefore('form');
 				}
 			});
 		</script>
