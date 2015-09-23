@@ -1,4 +1,4 @@
-/*! http://mths.be/placeholder v2.1.2 by @mathias */
+/*! http://mths.be/placeholder v2.1.3 by @mathias */
 (function(factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD
