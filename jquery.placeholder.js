@@ -1,4 +1,10 @@
-/*! http://mths.be/placeholder v2.1.3 by @mathias */
+/*!
+ * jQuery Placeholder Plugin v2.1.3
+ * https://github.com/mathiasbynens/jquery-placeholder
+ *
+ * Copyright 2011, 2015 Mathias Bynens
+ * Released under the MIT license
+ */
 (function(factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD
