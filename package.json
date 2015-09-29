@@ -17,6 +17,7 @@
     "url": "https://github.com/mathiasbynens/jquery-placeholder/issues"
   },
   "main": "jquery.placeholder.js",
+  "files": [ "jquery.placeholder.js" ],
   "directories": {
     "test": "tests"
   },
