@@ -17,10 +17,17 @@
     }
 }(function($) {
 
+    /****
+     * Allows plugin behavior simulation in modern browsers for easier debugging. 
+     * When setting to true, use attribute "placeholder-x" rather than the usual "placeholder" in your inputs/textareas 
+     * i.e. <input type="text" placeholder-x="my placeholder text" />
+     */
+    var debugMode = false; 
+
     // Opera Mini v7 doesn't support placeholder although its DOM seems to indicate so
     var isOperaMini = Object.prototype.toString.call(window.operamini) === '[object OperaMini]';
-    var isInputSupported = 'placeholder' in document.createElement('input') && !isOperaMini;
-    var isTextareaSupported = 'placeholder' in document.createElement('textarea') && !isOperaMini;
+    var isInputSupported = 'placeholder' in document.createElement('input') && !isOperaMini && !debugMode;
+    var isTextareaSupported = 'placeholder' in document.createElement('textarea') && !isOperaMini && !debugMode;
     var valHooks = $.valHooks;
     var propHooks = $.propHooks;
     var hooks;
@@ -43,7 +50,7 @@
             var defaults = {customClass: 'placeholder'};
             settings = $.extend({}, defaults, options);
 
-            return this.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
+            return this.filter((isInputSupported ? 'textarea' : ':input') + '[' + (debugMode ? 'placeholder-x' : 'placeholder') + ']')
                 .not('.'+settings.customClass)
                 .bind({
                     'focus.placeholder': clearPlaceholder,
@@ -169,7 +176,7 @@
         var input = this;
         var $input = $(input);
         
-        if (input.value === $input.attr('placeholder') && $input.hasClass(settings.customClass)) {
+        if (input.value === $input.attr((debugMode ? 'placeholder-x' : 'placeholder')) && $input.hasClass(settings.customClass)) {
             
             input.value = '';
             $input.removeClass(settings.customClass);
@@ -255,7 +262,7 @@
             }
 
             $input.addClass(settings.customClass);
-            $input[0].value = $input.attr('placeholder');
+            $input[0].value = $input.attr((debugMode ? 'placeholder-x' : 'placeholder'));
 
         } else {
             $input.removeClass(settings.customClass);
