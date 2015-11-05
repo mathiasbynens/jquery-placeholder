@@ -208,18 +208,8 @@
         var id = input.id;
 
         // If the placeholder is activated, triggering blur event (`$input.trigger('blur')`) should do nothing.
-        if (event && event.type === 'blur') {
-            
-            if ($input.hasClass(settings.customClass)) {
-                return;
-            }
-
-            if (input.type === 'password') {
-                $replacement = $input.prevAll('input[type="text"]:first');
-                if ($replacement.length > 0 && $replacement.is(':visible')) {
-                    return;
-                }
-            }
+        if (event && event.type === 'blur' && $input.hasClass(settings.customClass)) {
+            return;
         }
 
         if (input.value === '') {
