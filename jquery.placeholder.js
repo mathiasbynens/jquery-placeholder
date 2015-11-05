@@ -175,7 +175,7 @@
     function clearPlaceholder(event, value) {
         
         var input = this;
-        var $input = $(input);
+        var $input = $(this);
         
         if (input.value === $input.attr((debugMode ? 'placeholder-x' : 'placeholder')) && $input.hasClass(settings.customClass)) {
             
@@ -204,7 +204,7 @@
     function setPlaceholder(event) {
         var $replacement;
         var input = this;
-        var $input = $(input);
+        var $input = $(this);
         var id = input.id;
 
         // If the placeholder is activated, triggering blur event (`$input.trigger('blur')`) should do nothing.
