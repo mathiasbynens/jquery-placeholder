@@ -5,10 +5,9 @@
 		<title>HTML5 placeholder jQuery Plugin</title>
 		<style>
 			body { font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
-			input, textarea { font-size: 1em; }
+			input, textarea { font-size: 1em; font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; }
 			label code { display: inline-block; width: 200px; }
 			textarea { height: 2em; width: 20em;, font-family: sans-serif; }
-			form div { border-bottom: 1px solid #ccc; padding: 5px; }
 			.my-placeholder { color: #aaa; }
 			.note { border: 1px solid orange; font-size: 13px; padding: 1em; background: #ffffe0; }
 		</style>
@@ -86,9 +85,10 @@
 			<br />
 			<br />
 
-			<input type="password" name="password2" placeholder-x="type=password">
+			<div class="wrapped">
+				<input type="password" name="password2" placeholder-x="type=password 2">
+			</div>
 
-			<br />
 			<br />
 
 			<input type="submit" value="type=submit"> 
