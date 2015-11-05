@@ -52,6 +52,7 @@
 
             return this.filter((isInputSupported ? 'textarea' : ':input') + '[' + (debugMode ? 'placeholder-x' : 'placeholder') + ']')
                 .not('.'+settings.customClass)
+                .not(':radio, :checkbox, :hidden')
                 .bind({
                     'focus.placeholder': clearPlaceholder,
                     'blur.placeholder': setPlaceholder
