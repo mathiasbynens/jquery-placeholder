@@ -152,9 +152,21 @@
 
         // Clear placeholder values upon page reload
         $(window).bind('beforeunload.placeholder', function() {
-            $('.'+settings.customClass).each(function() {
-                this.value = '';
-            });
+
+            var clearPlaceholders = true;
+
+            try {
+                // Prevent IE javascript:void(0) anchors from causing cleared values
+                if (document.activeElement.toString() === 'javascript:void(0)') {
+                    clearPlaceholders = false;
+                }
+            } catch (exception) { }
+
+            if (clearPlaceholders) {
+                $('.'+settings.customClass).each(function() {
+                    this.value = '';
+                });
+            }
         });
     }
 
