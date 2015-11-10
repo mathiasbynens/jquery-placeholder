@@ -1,5 +1,5 @@
 /*!
- * jQuery Placeholder Plugin v2.1.3
+ * jQuery Placeholder Plugin v2.2.0
  * https://github.com/mathiasbynens/jquery-placeholder
  *
  * Copyright 2011, 2015 Mathias Bynens
@@ -17,10 +17,17 @@
     }
 }(function($) {
 
+    /****
+     * Allows plugin behavior simulation in modern browsers for easier debugging. 
+     * When setting to true, use attribute "placeholder-x" rather than the usual "placeholder" in your inputs/textareas 
+     * i.e. <input type="text" placeholder-x="my placeholder text" />
+     */
+    var debugMode = false; 
+
     // Opera Mini v7 doesn't support placeholder although its DOM seems to indicate so
     var isOperaMini = Object.prototype.toString.call(window.operamini) === '[object OperaMini]';
-    var isInputSupported = 'placeholder' in document.createElement('input') && !isOperaMini;
-    var isTextareaSupported = 'placeholder' in document.createElement('textarea') && !isOperaMini;
+    var isInputSupported = 'placeholder' in document.createElement('input') && !isOperaMini && !debugMode;
+    var isTextareaSupported = 'placeholder' in document.createElement('textarea') && !isOperaMini && !debugMode;
     var valHooks = $.valHooks;
     var propHooks = $.propHooks;
     var hooks;
@@ -43,8 +50,9 @@
             var defaults = {customClass: 'placeholder'};
             settings = $.extend({}, defaults, options);
 
-            return this.filter((isInputSupported ? 'textarea' : ':input') + '[placeholder]')
+            return this.filter((isInputSupported ? 'textarea' : ':input') + '[' + (debugMode ? 'placeholder-x' : 'placeholder') + ']')
                 .not('.'+settings.customClass)
+                .not(':radio, :checkbox, :hidden')
                 .bind({
                     'focus.placeholder': clearPlaceholder,
                     'blur.placeholder': setPlaceholder
@@ -167,9 +175,9 @@
     function clearPlaceholder(event, value) {
         
         var input = this;
-        var $input = $(input);
+        var $input = $(this);
         
-        if (input.value === $input.attr('placeholder') && $input.hasClass(settings.customClass)) {
+        if (input.value === $input.attr((debugMode ? 'placeholder-x' : 'placeholder')) && $input.hasClass(settings.customClass)) {
             
             input.value = '';
             $input.removeClass(settings.customClass);
@@ -196,22 +204,12 @@
     function setPlaceholder(event) {
         var $replacement;
         var input = this;
-        var $input = $(input);
+        var $input = $(this);
         var id = input.id;
 
         // If the placeholder is activated, triggering blur event (`$input.trigger('blur')`) should do nothing.
-        if (event && event.type === 'blur') {
-            
-            if ($input.hasClass(settings.customClass)) {
-                return;
-            }
-
-            if (input.type === 'password') {
-                $replacement = $input.prevAll('input[type="text"]:first');
-                if ($replacement.length > 0 && $replacement.is(':visible')) {
-                    return;
-                }
-            }
+        if (event && event.type === 'blur' && $input.hasClass(settings.customClass)) {
+            return;
         }
 
         if (input.value === '') {
@@ -255,7 +253,7 @@
             }
 
             $input.addClass(settings.customClass);
-            $input[0].value = $input.attr('placeholder');
+            $input[0].value = $input.attr((debugMode ? 'placeholder-x' : 'placeholder'));
 
         } else {
             $input.removeClass(settings.customClass);
