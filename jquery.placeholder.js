@@ -1,5 +1,5 @@
 /*!
- * jQuery Placeholder Plugin v2.2.0
+ * jQuery Placeholder Plugin v2.3.0
  * https://github.com/mathiasbynens/jquery-placeholder
  *
  * Copyright 2011, 2015 Mathias Bynens
