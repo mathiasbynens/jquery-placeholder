@@ -1,5 +1,5 @@
 /*!
- * jQuery Placeholder Plugin v2.3.0
+ * jQuery Placeholder Plugin v2.3.1
  * https://github.com/mathiasbynens/jquery-placeholder
  *
  * Copyright 2011, 2015 Mathias Bynens
@@ -52,7 +52,7 @@
 
             return this.filter((isInputSupported ? 'textarea' : ':input') + '[' + (debugMode ? 'placeholder-x' : 'placeholder') + ']')
                 .not('.'+settings.customClass)
-                .not(':radio, :checkbox, :hidden')
+                .not(':radio, :checkbox, [type=hidden]')
                 .bind({
                     'focus.placeholder': clearPlaceholder,
                     'blur.placeholder': setPlaceholder
