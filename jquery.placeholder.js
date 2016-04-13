@@ -125,12 +125,16 @@
             }
         };
 
-        if (!isInputSupported) {
+        if (!isInputSupported &&
+            typeof valHooks !== 'undefined' &&
+            valHooks !== null) {
             valHooks.input = hooks;
             propHooks.value = hooks;
         }
 
-        if (!isTextareaSupported) {
+        if (!isTextareaSupported &&
+            typeof valHooks !== 'undefined' &&
+            valHooks !== null) {
             valHooks.textarea = hooks;
             propHooks.value = hooks;
         }
