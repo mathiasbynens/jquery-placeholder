@@ -71,10 +71,10 @@
                 var $passwordInput = $element.data('placeholder-password');
 
                 if ($passwordInput) {
-                    return $passwordInput[0].value;
+                    return $passwordInput[0].value === '' ? '' : $passwordInput[0].value;
                 }
 
-                return $element.data('placeholder-enabled') && $element.hasClass(settings.customClass) ? '' : element.value;
+                return $element.data('placeholder-enabled') && $element.hasClass(settings.customClass) ? '' : (element.value === '' ? '' : element.value);
             },
             'set': function(element, value) {
 
