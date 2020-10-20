@@ -31,7 +31,7 @@ By default, `.placeholder` css class will be added. You can override default by 
 $('input, textarea').placeholder({ customClass: 'my-placeholder' });
 ```
 
-You’ll still be able to use `jQuery#val()` to get and set the input values. If the element is currently showing a placeholder, `.val()` will return an empty string instead of the placeholder text, just like it does in browsers with a native `@placeholder` implementation. Calling `.val('')` to set an element’s value to the empty string will result in the placeholder text (re)appearing.
+You’ll still be able to use `jQuery.val()` to get and set the input values. If the element is currently showing a placeholder, `.val()` will return an empty string instead of the placeholder text, just like it does in browsers with a native `@placeholder` implementation. Calling `.val('')` to set an element’s value to the empty string will result in the placeholder text (re)appearing.
 
 ### CSS
 
